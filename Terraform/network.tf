@@ -73,7 +73,7 @@ resource "azurerm_network_interface" "myWorkersNfsNic" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
 
 resource "azurerm_public_ip" "myPublicMasterIp" {
-  name                = "pubip-${vms_master[count.index]}"
+  name                = "pubip-${var.vms_master[count.index]}"
   count               = length(var.vms_master)  
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
