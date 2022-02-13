@@ -3,7 +3,7 @@
 
 resource "azurerm_network_security_group" "mySecGroup" {
     name                = "sshtraffic-${var.vms[count.index]}"
-    count               = lenght(vars.vms)
+    count               = length(var.vms)
     location            = azurerm_resource_group.rg.location
     resource_group_name = azurerm_resource_group.rg.name
 
@@ -28,9 +28,9 @@ resource "azurerm_network_security_group" "mySecGroup" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association
 
 resource "azurerm_network_interface_security_group_association" "mySecGroupAssociation1" {
-    count                     = lenght(vars.vms)
-    network_interface_id      = azurerm_network_interface.myNic.[count.index].id
-    network_security_group_id = azurerm_network_security_group.mySecGroup.[count.index].id
+    count                     = length(var.vms)
+    network_interface_id      = azurerm_network_interface.myNic[count.index].id
+    network_security_group_id = azurerm_network_security_group.mySecGroup[count.index].id
     
 
 }

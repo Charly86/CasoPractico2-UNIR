@@ -28,7 +28,7 @@ resource "azurerm_subnet" "mySubnet" {
 
 resource "azurerm_network_interface" "myNic" {
   name                = "nic-${var.vms[count.index]}"
-  count               = lenght(vars.vms)  
+  count               = length(var.vms)  
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
@@ -49,9 +49,9 @@ resource "azurerm_network_interface" "myNic" {
 # IP pública
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
 
-resource "azurerm_public_ip" "myPublicIp1" {
+resource "azurerm_public_ip" "myPublicIp" {
   name                = "pubip-${var.vms[count.index]}"
-  count               = lenght(vars.vms)  
+  count               = length(var.vms)  
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"

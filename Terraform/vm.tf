@@ -6,7 +6,7 @@ resource "azurerm_linux_virtual_machine" "myVM1" {
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
     size                = var.vm_size
-    count               = lenght(vars.vms)
+    count               = length(var.vms)
     admin_username      = "adminUsername"
     network_interface_ids = [ azurerm_network_interface.myNic[count.index].id ]
     disable_password_authentication = true
