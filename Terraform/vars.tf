@@ -7,15 +7,15 @@ variable "location" {
 #Se configura una maquina más potente para el master
 variable "vm_size_master" {
   type = string
-  description = "Tamaño de la máquina virtual"
-  default = "Standard_A4_v2" # 8 GB, 2 CPU 
+  description = "Tamaño de la máquina virtual master"
+  default = "Standard_D2_v2" # 7 GB, 2 CPU 
 }
 
 #Se configuran maquinas menos potentes para los workers i nfs
 variable "vm_size_workers_nfs" {
   type = string
-  description = "Tamaño de la máquina virtual"
-  default = "Standard_A2_v2" # 4 GB, 2 CPU 
+  description = "Tamaño de la máquina virtual workers y nfs"
+  default = "Standard_D1_v2" # 3.5 GB, 1 CPU 
 }
 
 variable "vms_master" {

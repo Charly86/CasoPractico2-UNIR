@@ -59,7 +59,7 @@ resource "azurerm_network_interface" "myWorkersNfsNic" {
     name                           = "ipconf-${var.vms_workers_nfs[count.index]}"
     subnet_id                      = azurerm_subnet.mySubnet.id 
     private_ip_address_allocation  = "Static"
-    private_ip_address             = "10.0.1.${count.index + 10}"
+    private_ip_address             = "10.0.1.${count.index + 11}"
     public_ip_address_id           = azurerm_public_ip.myPublicWorkersNfsIp[count.index].id
   }
 
