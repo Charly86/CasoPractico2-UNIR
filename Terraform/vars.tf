@@ -8,7 +8,7 @@ variable "location" {
 variable "vm_size_master" {
   type = string
   description = "Tamaño de la máquina virtual master"
-  default = "Standard_D2_v2" # 7 GB, 2 CPU 
+  default = "Standard_B2s" # 4 GB, 2 CPU 
 }
 
 #Se configuran maquinas menos potentes para los workers i nfs
