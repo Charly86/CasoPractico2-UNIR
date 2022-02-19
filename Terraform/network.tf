@@ -23,10 +23,10 @@ resource "azurerm_subnet" "mySubnet" {
 
 }
 
-# Creación de NIC para master
+# Creación de NIC para master y NFS
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface
 
-resource "azurerm_network_interface" "myMasterNic" {
+resource "azurerm_network_interface" "myMasterNFSNic" {
   name                = "nic-${var.vms_master[count.index]}"
   count               = length(var.vms_master)  
   location            = azurerm_resource_group.rg.location
@@ -37,7 +37,7 @@ resource "azurerm_network_interface" "myMasterNic" {
     subnet_id                      = azurerm_subnet.mySubnet.id 
     private_ip_address_allocation  = "Static"
     private_ip_address             = "10.0.1.${count.index + 10}"
-    public_ip_address_id           = azurerm_public_ip.myPublicMasterIp[count.index].id
+    public_ip_address_id           = azurerm_public_ip.myPublicMasterNFSIp[count.index].id
   }
 
     tags = {
@@ -46,21 +46,21 @@ resource "azurerm_network_interface" "myMasterNic" {
 
 }
 
-# Creación de NIC para workers i NFS
+# Creación de NIC para workers
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface
 
-resource "azurerm_network_interface" "myWorkersNfsNic" {
-  name                = "nic-${var.vms_workers_nfs[count.index]}"
-  count               = length(var.vms_workers_nfs)  
+resource "azurerm_network_interface" "myWorkersNic" {
+  name                = "nic-${var.vms_workers[count.index]}"
+  count               = length(var.vms_workers)  
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 
     ip_configuration {
-    name                           = "ipconf-${var.vms_workers_nfs[count.index]}"
+    name                           = "ipconf-${var.vms_workers[count.index]}"
     subnet_id                      = azurerm_subnet.mySubnet.id 
     private_ip_address_allocation  = "Static"
     private_ip_address             = "10.0.1.${count.index + 11}"
-    public_ip_address_id           = azurerm_public_ip.myPublicWorkersNfsIp[count.index].id
+    public_ip_address_id           = azurerm_public_ip.myPublicWorkersIp[count.index].id
   }
 
     tags = {
@@ -72,7 +72,7 @@ resource "azurerm_network_interface" "myWorkersNfsNic" {
 # IP pública Master
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
 
-resource "azurerm_public_ip" "myPublicMasterIp" {
+resource "azurerm_public_ip" "myPublicMasterNFSIp" {
   name                = "pubip-${var.vms_master[count.index]}"
   count               = length(var.vms_master)  
   location            = azurerm_resource_group.rg.location
@@ -86,12 +86,12 @@ resource "azurerm_public_ip" "myPublicMasterIp" {
 
 }
 
-# IP pública Workers y NFS
+# IP pública Workers
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
 
-resource "azurerm_public_ip" "myPublicWorkersNfsIp" {
-  name                = "pubip-${var.vms_workers_nfs[count.index]}"
-  count               = length(var.vms_workers_nfs)  
+resource "azurerm_public_ip" "myPublicWorkersIp" {
+  name                = "pubip-${var.vms_workers[count.index]}"
+  count               = length(var.vms_workers)  
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"
