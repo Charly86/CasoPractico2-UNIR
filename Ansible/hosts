@@ -6,7 +6,7 @@ vm-master ansible_host=10.0.1.10
 
 [workers]
 vm-worker01 ansible_host=10.0.1.11
-vm-worker02 ansible_host=10.0.1.12
+
 
 [nfs]
-vm-nfs ansible_host=10.0.1.13
+vm-nfs ansible_host=10.0.1.10
