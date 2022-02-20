@@ -2,11 +2,11 @@
 ansible_user=adminUsername
 
 [master]
-vm-master ansible_host=10.0.1.10
+vm-master ansible_host=23.97.187.155
 
 [workers]
-vm-worker01 ansible_host=10.0.1.11
+vm-worker01 ansible_host=23.97.186.41
 
 
 [nfs]
-vm-nfs ansible_host=10.0.1.10
+vm-nfs ansible_host=23.97.187.155
