@@ -1,5 +1,5 @@
 [all:vars]
-ansible_user=adminUsername
+ansible_user=adminusername
 
 [master]
 vm-master ansible_host=192.168.17.129
