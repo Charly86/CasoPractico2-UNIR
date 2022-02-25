@@ -1,6 +1,6 @@
 - hosts: master
   roles:
   - kubemaster
-- hosts: slave
+- hosts: workers
   roles: 
   - kubenodes
