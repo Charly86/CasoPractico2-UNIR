@@ -1,3 +1,0 @@
----
-# vars file for kubemaster
-pod_cidr_network: 10.244.0.0/16
