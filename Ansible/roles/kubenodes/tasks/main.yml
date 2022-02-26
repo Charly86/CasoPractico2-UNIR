@@ -64,7 +64,13 @@
     state: started
     enabled: yes
     become: yes
-
+    
+- name: "Starting Kubelet Service"
+  service:
+      name: "kubelet"
+      state: started
+      enabled: yes
+      
 - name: "Pulling the config images"
   shell: kubeadm config images pull
 
