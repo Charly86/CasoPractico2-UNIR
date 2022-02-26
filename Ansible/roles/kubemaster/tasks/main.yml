@@ -6,16 +6,16 @@
       - "iproute-tc"
       state: present
 
-- name: "Creating Yum Repo For Kubeadm, Kubelet, and Kubectl"
+- name: "Configuramos el repositorio de kubernetes"
   yum_repository:
       name: kubernetes
       description: "Kubernetes"
-      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
       gpgcheck: yes
       gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
       exclude: kubelet kubeadm kubectl
 
-- name: "Installing Kubeadm, Kubelet, and Kubectl"
+- name: "Instalamos kubernetes"
   yum:
       name: [ 'kubectl', 'kubeadm', 'kubelet' ]
       state: present
