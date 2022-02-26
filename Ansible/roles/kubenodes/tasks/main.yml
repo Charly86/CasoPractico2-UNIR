@@ -11,7 +11,7 @@
   yum_repository:
      name: kubernetes
      description: Yum for k8s
-     baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+     baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
      enabled: yes
      gpgcheck: yes
      repo_gpgcheck: yes
@@ -30,7 +30,7 @@
      name: "{{ item }}"
      state: started
      enabled: yes
-  loop:
+  with_items:
         - kubelet
         - docker
 
