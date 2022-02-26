@@ -107,4 +107,4 @@
   ignore_errors: True
 
 - name: "Storing Token"
-  local_action: copy content={{ x.stdout }} dest=/tmp/token
+  local_action: copy content={{ token.stdout }} dest=/tmp/token
