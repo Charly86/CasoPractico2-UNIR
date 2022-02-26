@@ -44,12 +44,6 @@
       state: present
       disable_excludes: kubernetes
 
-- name: Setup Docker Proxy
-  ansible.builtin.template:
-    src: docker-proxy.j2
-    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
-  when: setup_proxy
-
     
 - name: "Starting Docker Service"
   service:
@@ -57,6 +51,18 @@
       state: started
       enabled: yes
       daemon_reload: ye
+      
+- name: Setup Docker Proxy
+  ansible.builtin.template:
+    src: docker-proxy.j2
+    dest: /etc/systemd/system/docker.service.d/http-proxy.conf
+  when: setup_proxy
+  
+ - name: Restart docker service
+  ansible.builtin.systemd:
+    name: docker
+    state: restarted
+    daemon_reload: yes
 
 - name: "Starting Kubelet Service"
   service:
