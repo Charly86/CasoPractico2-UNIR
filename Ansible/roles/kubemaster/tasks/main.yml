@@ -103,7 +103,7 @@
 
 - name: "THE JOIN TOKEN"
   command: "kubeadm token create --print-join-command"
-  register: x
+  register: token
   ignore_errors: True
 
 - name: "Storing Token"
