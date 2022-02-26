@@ -2,6 +2,7 @@
   package:
       name:
       - iproute-tc
+      - docker
       state: present
 
 - name: "Configuramos el repositorio de kubernetes"
@@ -19,14 +20,8 @@
       state: present
       disable_excludes: kubernetes
 
-    
-- name: install Docker
-  yum:
-      name: docker
-      state: present
-      update_cache: true
 
-- name: start Docker
+- name: Iniciamos Docker
   service:
       name: podman
       state: started
@@ -46,7 +41,7 @@
       enabled: yes
       
 
-- name: "Initializing the Kubernetes cluser on Master Node"
+- name: "Initializing the Kubernetes cluster on Master Node"
   command: "kubeadm init --pod-network-cidr={{ pod_cidr_network }} --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
   ignore_errors: True
 
