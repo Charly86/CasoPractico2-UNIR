@@ -57,14 +57,14 @@
   package:
       name: docker-ce
       state: latest
-      become: yes
+  become: yes
 
 - name: Start Docker service
   service:
     name: docker
     state: started
     enabled: yes
-    become: yes
+  become: yes
     
 - name: "Starting Kubelet Service"
   service:
