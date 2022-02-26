@@ -1,6 +1,6 @@
 ---
 # tasks file for kubenodes
-- name: "Installing docker and iproute-tc"
+- name: "Installing iproute-tc"
   package:
      name:
          - iproute-tc
