@@ -1,27 +1,39 @@
-- name: "Installing docker and iproute-tc"
+# tasks file for kubemaster
+- name: "Installing Required Packages"
   package:
-     name:
-         - docker
-         - iproute-tc
-     state: present
+      name:
+      - "docker"
+      - "iproute-tc"
+      state: present
 
-- name: "Configuring the Yum repo for kubernetes"
+- name: "Creating Yum Repo For Kubeadm, Kubelet, and Kubectl"
   yum_repository:
-     name: kubernetes
-     description: Yum for k8s
-     baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
-     enabled: yes
-     gpgcheck: yes
-     repo_gpgcheck: yes
-     gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+      name: kubernetes
+      description: "Kubernetes"
+      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+      gpgcheck: yes
+      gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
+      exclude: kubelet kubeadm kubectl
 
-- name: "Installing kubeadm,kubelet kubectl program"
+- name: "Installing Kubeadm, Kubelet, and Kubectl"
   yum:
-     name:
-        - kubelet
-        - kubectl
-        - kubeadm
-     state: present
+      name: [ 'kubectl', 'kubeadm', 'kubelet' ]
+      state: present
+      disable_excludes: kubernetes
+
+
+- name: update kernel settings
+  sysctl:
+    name: net.bridge.bridge-nf-call-iptables
+    value: 1
+    sysctl_set: yes
+    state: present
+    reload: yes
+
+- name: "Copy Daemon file to change the Docker's cgroup Driver"
+  copy:
+      src: daemon.json
+      dest: "/etc/docker/daemon.json"
 
 - name: "Starting Docker Service"
   service:
@@ -35,48 +47,35 @@
       state: started
       enabled: yes
 
-- name: "Pulling the config images"
-  shell: kubeadm config images pull
+- name: "Initializing the Kubernetes cluser on Master Node"
+  command: "kubeadm init --pod-network-cidr={{ pod_cidr_network }} --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
+  ignore_errors: True
 
-- name: "Confuring the docker daemon.json file"
-  copy:
-      src: daemon.json
-      dest: "/etc/docker/daemon.json"
-
-- name: "Restarting the docker service"
-  service:
-     name: docker
-     state: restarted
-
-- name: "Configuring the Ip tables and refreshing sysctl"
-  copy:
-    dest: /etc/docker/daemon.json
-    content: |
-      {
-      "exec-opts": ["native.cgroupdriver=systemd"]
-      }
-
-- name: "systemctl"
-  shell: "sysctl --system"
-
-- name: "Starting kubeadm service"
-  shell: "kubeadm init  --ignore-preflight-errors=all"
-
-- name: "Creating .kube Directory"
+- name: "Configuration Files Setup"
   file:
-     path: $HOME/.kube
-     state: directory
+    path: "$HOME/.kube"
+    state: directory
+    
+- name: "Copying Configuration File"
+  copy:
+    src: /etc/kubernetes/admin.conf
+    dest: $HOME/.kube/config
+    remote_src: yes
 
-- name: "Copying file config file"
-  shell: "cp -i /etc/kubernetes/admin.conf $HOME/.kube/config"
-  ignore_errors: yes
+- name: Change kubeconfig file permission
+  file:
+    path: $HOME/.kube/config 
+    owner: "{{ ansible_effective_user_id }}"
+    group: "{{ ansible_effective_group_id }}"
 
-- name: "Installing Addons e.g flannel"
-  shell: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+- name: "Downloading CNI Plugin"
+  command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+  ignore_errors: True
 
-- name: "Creating the token"
-  shell: "kubeadm token create --print-join-command"
-  register: token
+- name: "THE JOIN TOKEN"
+  command: "kubeadm token create --print-join-command"
+  register: x
+  ignore_errors: True
 
-- debug:
-       msg: "{{ token.stdout }}"
+- name: "Storing Token"
+  local_action: copy content={{ x.stdout }} dest=/tmp/token
