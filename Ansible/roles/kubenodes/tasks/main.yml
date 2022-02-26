@@ -31,10 +31,11 @@
       disable_excludes: kubernetes
 
 - name: Añadimos repositorio de Docker para centos
+  become: yes
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docer-ce.repo
-    become: yes
+    
       
 - name: Enable Docker Edge repo
   ini_file:
