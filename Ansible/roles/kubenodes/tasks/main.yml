@@ -30,10 +30,12 @@
       state: present
       disable_excludes: kubernetes
 
-- name: Añadimos repositorio de Docker para centos
-  get_url:
-    url: https://download.docker.com/linux/centos/docker-ce.repo
-    dest: /etc/yum.repos.d/docer-ce.repo
+- name: Set up docker repository
+  shell: |
+       dnf install -y yum-utils
+       yum-config-manager --add-repo https://download.docker.com/linux/centos/docker-ce.repo
+  args:
+    warn: no
     
       
 - name: Enable Docker Edge repo
