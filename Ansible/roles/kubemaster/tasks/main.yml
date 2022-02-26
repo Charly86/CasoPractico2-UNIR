@@ -22,7 +22,7 @@
 
 - name: Set cgroup driver as systemd
   ansible.builtin.template:
-    src: daemon.json
+    src: ./Ansible/roles/kubemaster/files/daemon.json
     dest: /etc/docker/daemon.json
 
 
