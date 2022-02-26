@@ -45,12 +45,10 @@
       disable_excludes: kubernetes
 
     
-- name: "Starting Docker Service"
-  service:
-      name: "docker"
-      state: started
-      enabled: yes
-      daemon_reload: yes
+- name: Configurando docker
+  shell: |
+    systemctl enable docker
+    systemctl start docker
       
 - name: Setup Docker Proxy
   ansible.builtin.template:
