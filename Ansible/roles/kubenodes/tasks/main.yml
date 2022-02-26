@@ -99,4 +99,4 @@
   shell: "sysctl --system"
   
 - name: joining to Master
-  command: "{{ hosts[groups['master'][0]]['token']['stdout'] }}"
+  command: "{{ hostvars[groups['master'][0]]['token']['stdout'] }}"
