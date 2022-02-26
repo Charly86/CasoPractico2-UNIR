@@ -98,5 +98,6 @@
 - name: "systemctl"
   shell: "sysctl --system"
   
-- name: joining to Master
-  command: "{{ hostvars[groups['master'][0]]['token']['stdout'] }}"
+- name: Joining to the cluster
+  become: yes
+  shell: "{{ hostvars['master'][‘join_command’] }}"
