@@ -50,7 +50,7 @@
       name: "docker"
       state: started
       enabled: yes
-      daemon_reload: ye
+      daemon_reload: yes
       
 - name: Setup Docker Proxy
   ansible.builtin.template:
