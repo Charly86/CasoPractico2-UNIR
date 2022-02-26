@@ -2,7 +2,6 @@
 - name: "Installing Required Packages"
   package:
       name:
-      - docker
       - iproute-tc
       state: present
 
