@@ -1,61 +1,64 @@
 ---
 # tasks file for kubenodes
-- name: "Installing Required Packages"
+- name: "Installing docker and iproute-tc"
   package:
-      name:
-      - "docker"
-      - "iproute-tc"
-      state: present
+     name:
+         - docker
+         - iproute-tc
+     state: present
 
-- name: "Creating Yum Repo For Kubeadm, Kubelet, and Kubectl"
+- name: "Configuring the Yum repo for kubernetes"
   yum_repository:
-      name: kubernetes
-      description: "Kubernetes"
-      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
-      gpgcheck: yes
-      gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-      exclude: kubelet kubeadm kubectl
+     name: kubernetes
+     description: Yum for k8s
+     baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
+     enabled: yes
+     gpgcheck: yes
+     repo_gpgcheck: yes
+     gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 
-- name: "Installing Kubeadm, Kubelet, and Kubectl"
+- name: "Installing kubeadm,kubelet kubectl program"
   yum:
-      name: [ 'kubectl', 'kubeadm', 'kubelet' ]
-      state: present
-      disable_excludes: kubernetes
-    
-- name: Ensure br_netfilter is enabled.
-  modprobe:
-    name: br_netfilter
-    state: present
+     name:
+        - kubelet
+        - kubectl
+        - kubeadm
+     state: present
 
-- name: update kernel settings
-  sysctl:
-    name: net.bridge.bridge-nf-call-iptables
-    value: 1
-    sysctl_set: yes
-    state: present
-    reload: yes
+- name: "Enabling the docker and kubenetes"
+  service:
+     name: "{{ item }}"
+     state: started
+     enabled: yes
+  loop:
+        - kubelet
+        - docker
 
-- name: "Copy Daemon file to change the Docker's cgroup Driver"
+- name: "Pulling the config images"
+  shell: kubeadm config images pull
+
+- name: "Confuring the docker daemon.json file"
   copy:
-      src: daemon.json
-      dest: "/etc/docker/daemon.json"
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+      "exec-opts": ["native.cgroupdriver=systemd"]
+      }
 
-- name: "Starting Docker Service"
+- name: "Restarting the docker service"
   service:
-      name: "docker"
-      state: started
-      enabled: yes
+     name: docker
+     state: restarted
 
-- name: "Starting Kubelet Service"
-  service:
-      name: "kubelet"
-      state: started
+- name: "Configuring the Ip tables and refreshing sysctl"
+  copy:
+    dest: /etc/sysctl.d/k8s.conf
+    content: |
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
 
-- name: "Copying token to slave nodes"
-  copy: 
-      src: /tmp/token
-      dest: /tmp/token
+- name: "systemctl"
+  shell: "sysctl --system"
 
-- name: "Joining the cluster"
-  shell: "bash /tmp/token"
-  ignore_errors: True
+- name: joining to Master
+  command: "{{ hostvars[groups['ec2_master'][0]]['token']['stdout'] }}"
