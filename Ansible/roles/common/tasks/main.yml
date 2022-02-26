@@ -3,13 +3,11 @@
 - hosts: all
   become: yes
   tasks:
-
    - name: disable firewall service for labs
      service:
         name: firewalld
         state: stopped
         enabled: false
-
    - name: Disable SWAP 
      shell: |
        swapoff -a
@@ -76,7 +74,7 @@
        enabled: yes
        state: started
 
-- hosts: masters
+- hosts: master
   become: yes
   tasks:
    - name: install kubectl
