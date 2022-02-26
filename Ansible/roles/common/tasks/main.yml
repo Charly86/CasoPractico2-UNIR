@@ -1,6 +1,3 @@
-- hosts: all
-  become: yes
-  tasks:
 
    - name: disable firewall service for labs
      service:
@@ -74,17 +71,5 @@
        enabled: yes
        state: started
 
-- hosts: masters
-  become: yes
-  tasks:
-   - name: install kubectl
-     yum:
-        name: kubectl-1.14.0
-        state: present
-        allow_downgrade: yes
-
-- hosts: all
-  become: yes
-  tasks:
    - name: reboot ALL machines
      reboot:
