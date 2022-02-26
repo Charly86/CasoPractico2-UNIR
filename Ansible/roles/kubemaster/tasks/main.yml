@@ -2,7 +2,6 @@
   package:
       name:
       - iproute-tc
-      - docker
       state: present
 
 - name: "Configuramos el repositorio de kubernetes"
@@ -20,12 +19,40 @@
       state: present
       disable_excludes: kubernetes
 
+- name: Añadimos repositorio de Docker para centos
+  get_url:
+    url: https://download.docker.com/linux/centos/docker-ce.repo
+    dest: /etc/yum.repos.d/docer-ce.repo
+    become: yes
+      
+- name: Enable Docker Edge repo
+  ini_file:
+    dest: /etc/yum.repos.d/docer-ce.repo
+    section: 'docker-ce-edge'
+    option: enabled
+    value: 0
+    become: yes
 
-- name: Iniciamos Docker
+- name: Enable Docker Test repo
+  ini_file:
+    dest: /etc/yum.repos.d/docer-ce.repo
+    section: 'docker-ce-test'
+    option: enabled
+    value: 0
+    become: yes
+
+- name: Install Docker
+  package:
+      name: docker-ce
+      state: latest
+      become: yes
+
+- name: Start Docker service
   service:
-      name: podman
-      state: started
-      enabled: true
+    name: docker
+    state: started
+    enabled: yes
+    become: yes
       
 - name: Set cgroup driver as systemd
   copy:
@@ -42,7 +69,7 @@
       
 
 - name: "Initializing the Kubernetes cluster on Master Node"
-  command: "kubeadm init --pod-network-cidr={{ pod_cidr_network }} --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
+  command: "kubeadm init --pod-network-cidr={{ pod_cidr_network }}"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
