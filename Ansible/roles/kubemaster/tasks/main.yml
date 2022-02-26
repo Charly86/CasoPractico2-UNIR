@@ -23,14 +23,17 @@
         - kubeadm
      state: present
 
-- name: "Enabling the docker and kubenetes"
+- name: "Starting Docker Service"
   service:
-     name: "{{ item }}"
-     state: started
-     enabled: yes
-  loop:
-        - kubelet
-        - docker
+      name: "docker"
+      state: started
+      enabled: yes
+
+- name: "Starting Kubelet Service"
+  service:
+      name: "kubelet"
+      state: started
+      enabled: yes
 
 - name: "Pulling the config images"
   shell: kubeadm config images pull
