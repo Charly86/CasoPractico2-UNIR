@@ -2,8 +2,8 @@
 - name: "Installing Required Packages"
   package:
       name:
-      - "docker"
-      - "iproute-tc"
+      - docker
+      - iproute-tc
       state: present
 
 - name: "Configuramos el repositorio de kubernetes"
