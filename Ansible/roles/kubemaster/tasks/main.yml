@@ -21,9 +21,12 @@
     - /etc/systemd/system/docker.service.d
 
 - name: Set cgroup driver as systemd
-  ansible.builtin.template:
-    src: ./Ansible/roles/kubemaster/files/daemon.json
+  copy:
     dest: /etc/docker/daemon.json
+    content: |
+      {
+      "exec-opts": ["native.cgroupdriver=systemd"]
+      }
 
 
 - name: "Configuramos el repositorio de kubernetes"
@@ -61,10 +64,6 @@
       state: started
       enabled: yes
       
-- name: "Copy Daemon file to change the Docker's cgroup Driver"
-  copy:
-      src: daemon.json
-      dest: "/etc/docker/daemon.json"
 
 - name: "Initializing the Kubernetes cluser on Master Node"
   command: "kubeadm init --pod-network-cidr={{ pod_cidr_network }} --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
