@@ -28,7 +28,7 @@
 
 - name: start Docker
   service:
-      name: docker
+      name: podman
       state: started
       enabled: true
       
