@@ -3,26 +3,7 @@
   package:
       name:
       - iproute-tc
-      - docker
       state: present
-
-
-- name: Create other directories required
-  ansible.builtin.file:
-    path: "{{ item }}"
-    state: directory
-  with_items:
-    - /etc/docker
-    - /etc/systemd/system/docker.service.d
-
-- name: Set cgroup driver as systemd
-  copy:
-    dest: /etc/docker/daemon.json
-    content: |
-      {
-      "exec-opts": ["native.cgroupdriver=systemd"]
-      }
-
 
 - name: "Configuramos el repositorio de kubernetes"
   yum_repository:
@@ -40,11 +21,25 @@
       disable_excludes: kubernetes
 
     
-- name: "Starting Docker Service"
-  service:
-      name: "docker"
-      state: started
-      enabled: yes
+- name: install Docker
+     yum:
+       name: docker
+       state: present
+       update_cache: true
+
+   - name: start Docker
+     service:
+       name: docker
+       state: started
+       enabled: true
+      
+ - name: Set cgroup driver as systemd
+  copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+      "exec-opts": ["native.cgroupdriver=systemd"]
+      }
 
 - name: "Starting Kubelet Service"
   service:
