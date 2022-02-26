@@ -1,3 +1,11 @@
 - hosts: all
   roles:
   - common
+
+- hosts: master
+  roles:
+  - kubemaster
+
+- hosts: workers
+  roles: 
+  - kubenodes
