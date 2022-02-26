@@ -1,86 +1,79 @@
----
-# tasks file for kubemaster
-- name: "Installing Required Packages"
+- name: "Installing docker and iproute-tc"
   package:
-      name:
-      - "docker"
-      - "iproute-tc"
-      state: present
+     name:
+         - docker
+         - iproute-tc
+     state: present
 
-- name: "Creating Yum Repo For Kubeadm, Kubelet, and Kubectl"
+- name: "Configuring the Yum repo for kubernetes"
   yum_repository:
-      name: kubernetes
-      description: "Kubernetes"
-      baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-\$basearch
-      gpgcheck: yes
-      gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
-      exclude: kubelet kubeadm kubectl
+     name: kubernetes
+     description: Yum for k8s
+     baseurl: https://packages.cloud.google.com/yum/repos/kubernetes-el7-x86_64
+     enabled: yes
+     gpgcheck: yes
+     repo_gpgcheck: yes
+     gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
 
-- name: "Installing Kubeadm, Kubelet, and Kubectl"
+- name: "Installing kubeadm,kubelet kubectl program"
   yum:
-      name: [ 'kubectl', 'kubeadm', 'kubelet' ]
-      state: present
-      disable_excludes: kubernetes
+     name:
+        - kubelet
+        - kubectl
+        - kubeadm
+     state: present
 
-- name: Ensure br_netfilter is enabled.
-  modprobe:
-    name: br_netfilter
-    state: present
+- name: "Enabling the docker and kubenetes"
+  service:
+     name: "{{ item }}"
+     state: started
+     enabled: yes
+  loop:
+        - kubelet
+        - docker
 
-- name: update kernel settings
-  sysctl:
-    name: net.bridge.bridge-nf-call-iptables
-    value: 1
-    sysctl_set: yes
-    state: present
-    reload: yes
+- name: "Pulling the config images"
+  shell: kubeadm config images pull
 
-- name: "Copy Daemon file to change the Docker's cgroup Driver"
+- name: "Confuring the docker daemon.json file"
   copy:
       src: daemon.json
       dest: "/etc/docker/daemon.json"
 
-- name: "Starting Docker Service"
+- name: "Restarting the docker service"
   service:
-      name: "docker"
-      state: started
-      enabled: yes
+     name: docker
+     state: restarted
 
-- name: "Starting Kubelet Service"
-  service:
-      name: "kubelet"
-      state: started
-      enabled: yes
-
-- name: "Initializing the Kubernetes cluser on Master Node"
-  command: "kubeadm init --pod-network-cidr={{ pod_cidr_network }} --ignore-preflight-errors=NumCPU --ignore-preflight-errors=Mem"
-  ignore_errors: True
-
-- name: "Configuration Files Setup"
-  file:
-    path: "$HOME/.kube"
-    state: directory
-    
-- name: "Copying Configuration File"
+- name: "Configuring the Ip tables and refreshing sysctl"
   copy:
-    src: /etc/kubernetes/admin.conf
-    dest: $HOME/.kube/config
-    remote_src: yes
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+      "exec-opts": ["native.cgroupdriver=systemd"]
+      }
 
-- name: Change kubeconfig file permission
+- name: "systemctl"
+  shell: "sysctl --system"
+
+- name: "Starting kubeadm service"
+  shell: "kubeadm init  --ignore-preflight-errors=all"
+
+- name: "Creating .kube Directory"
   file:
-    path: $HOME/.kube/config 
-    owner: "{{ ansible_effective_user_id }}"
-    group: "{{ ansible_effective_group_id }}"
+     path: $HOME/.kube
+     state: directory
 
-- name: "Downloading CNI Plugin"
-  command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
-  ignore_errors: True
+- name: "Copying file config file"
+  shell: "cp -i /etc/kubernetes/admin.conf $HOME/.kube/config"
+  ignore_errors: yes
 
-- name: "THE JOIN TOKEN"
-  command: "kubeadm token create --print-join-command"
-  register: x
-  ignore_errors: True
+- name: "Installing Addons e.g flannel"
+  shell: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
 
-- name: "Storing Token"
-  local_action: copy content={{ x.stdout }} dest=/tmp/token
+- name: "Creating the token"
+  shell: "kubeadm token create --print-join-command"
+  register: token
+
+- debug:
+       msg: "{{ token.stdout }}"
