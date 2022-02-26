@@ -11,10 +11,6 @@
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docer-ce.repo
 
-- name: Install supported version of docker
-  ansible.builtin.package:
-    name: [docker-ce]
-    state: present
 
 - name: Create other directories required
   ansible.builtin.file:
