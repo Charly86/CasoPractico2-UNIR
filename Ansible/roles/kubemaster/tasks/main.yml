@@ -1,4 +1,3 @@
-# tasks file for kubemaster
 - name: "Installing Required Packages"
   package:
       name:
@@ -22,25 +21,24 @@
 
     
 - name: install Docker
-     yum:
-       name: docker
-       state: present
-       update_cache: true
+  yum:
+      name: docker
+      state: present
+      update_cache: true
 
-   - name: start Docker
-     service:
-       name: docker
-       state: started
-       enabled: true
+- name: start Docker
+  service:
+      name: docker
+      state: started
+      enabled: true
       
- - name: Set cgroup driver as systemd
+- name: Set cgroup driver as systemd
   copy:
     dest: /etc/docker/daemon.json
     content: |
       {
       "exec-opts": ["native.cgroupdriver=systemd"]
       }
-
 - name: "Starting Kubelet Service"
   service:
       name: "kubelet"
