@@ -58,7 +58,7 @@
     dest: /etc/systemd/system/docker.service.d/http-proxy.conf
   when: setup_proxy
   
- - name: Restart docker service
+- name: Restart docker service
   ansible.builtin.systemd:
     name: docker
     state: restarted
