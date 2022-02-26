@@ -98,11 +98,5 @@
 - name: "systemctl"
   shell: "sysctl --system"
   
-- name: "Copying token to slave nodes"
-  copy: 
-      src: /tmp/token
-      dest: /tmp/token
-      
-- name: "Joining the cluster"
-  shell: "bash /tmp/token"
-  ignore_errors: True
+- name: joining to Master
+  command: "{{ hosts[groups['master'][0]]['token']['stdout'] }}"
