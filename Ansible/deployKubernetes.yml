@@ -1,7 +1,17 @@
+- hosts: all
+  tasks:
+    - name: Common tasks
+      include_role:
+        name: common
+
 - hosts: master
-  roles:
-  - kubemaster
+  tasks:
+    - name: Configuring master
+      include_role:
+        name: kubemaster
 
 - hosts: workers
-  roles: 
-  - kubenodes
+  tasks:
+    - name: Configuring workers
+      include_role:
+        name: kubenodes
