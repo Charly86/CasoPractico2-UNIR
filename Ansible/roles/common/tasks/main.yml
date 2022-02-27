@@ -11,6 +11,7 @@
       - rpcbind
       - chrony
       - python3
+      - firewalld
       - nfs4-acl-tools
       state: present
 
