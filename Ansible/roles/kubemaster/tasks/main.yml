@@ -108,6 +108,11 @@
   shell: |
     kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
     
+- name: Install Tigera
+  shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+  register: kubectl_operator
+  become: yes
+  
 - name: "Create Join Token"
   command: "kubeadm token create --print-join-command"
   register: join_token
