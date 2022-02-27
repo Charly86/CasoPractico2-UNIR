@@ -76,7 +76,7 @@
       enabled: yes
       
 - name: Reset Kubernetes component
-      shell: "kubeadm reset"
+  shell: "kubeadm reset"
       
 - name: "Initializing the Kubernetes cluster on Master Node"
   command: "kubeadm init --pod-network-cidr={{ pod_cidr_network }} --ignore-preflight-errors=all"
