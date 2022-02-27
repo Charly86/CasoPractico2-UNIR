@@ -7,6 +7,11 @@
       - iproute-tc
       - net-tools
       - wget
+      - nfs-utils
+      - rpcbind
+      - chrony
+      - python3
+      - nfs4-acl-tools
       state: present
 
 - name: Disable SElinux
@@ -104,6 +109,15 @@
     content: |
       net.bridge.bridge-nf-call-ip6tables = 1
       net.bridge.bridge-nf-call-iptables = 1
-      
+ 
+- name: Mapping /etc/hosts
+  lineinfile:
+      path: /etc/hosts
+      line: "{{item.ip}} {{item.hostname}}"
+      state: present
+      create: yes
+  with_items:
+     - "{{ (hostvars[inventory_hostname]['publicIp']) }}"
+     
 - name: "systemctl"
   shell: "sysctl --system"
