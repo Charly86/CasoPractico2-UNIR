@@ -104,6 +104,7 @@
 - name: "Create JOIN TOKEN"
   command: "kubeadm token create --print-join-command"
   register: join_token
+  delegate_to: "{{ groups['master'][0] }}"
   ignore_errors: True
 
 - debug:
