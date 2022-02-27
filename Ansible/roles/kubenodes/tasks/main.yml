@@ -99,7 +99,7 @@
   shell: "sysctl --system"
   
 - name: Copy token to workes
-  copy: src={{ join_token_file }} dest=kube_token
+  copy: src={{join_token}} dest=kube_token
 
 - name: Join to the cluster
   shell: |
