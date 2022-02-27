@@ -1,2 +1,15 @@
 ---
 # tasks file for app
+
+- name: Deploy nginx
+  shell: "kubectl apply -f ../files/{{ item }.yaml}"
+  register: deploy
+  with_items:
+    - deployment
+  become: yes
+
+- name: Show deployment results
+  debug:
+    msg: "{{item.stdout_lines }}"
+  with_items:
+    - "{{ deploy.results }}"
