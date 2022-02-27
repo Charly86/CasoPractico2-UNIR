@@ -5,9 +5,41 @@
   package:
       name:
       - iproute-tc
+      - net-tools
+      - wget
       state: present
 
-- name: "Configuramos el repositorio de kubernetes"
+- name: Update system packages
+  dnf:
+    name: "*"
+    state: latest
+  become: yes
+
+- name: Disable SElinux
+  selinux:
+    state: disabled
+  become: yes
+
+- name: Install Chrony (Red Hat/Centos)
+  dnf:
+    name: chrony
+    state: present
+  become: yes
+
+- name: Configuring timezone to Europe/Madrid
+  timezone:
+    name: Europe/Madrid
+  become: yes
+  
+- name: Enable Chronyd service (Red Hat)
+  systemd:
+    name: chronyd
+    state: started
+    enabled: yes
+    masked: no
+  become: yes
+  
+- name: "Configuing Kubernetes repository"
   yum_repository:
       name: kubernetes
       description: "Kubernetes"
@@ -16,13 +48,13 @@
       gpgkey: https://packages.cloud.google.com/yum/doc/yum-key.gpg https://packages.cloud.google.com/yum/doc/rpm-package-key.gpg
       exclude: kubelet kubeadm kubectl
 
-- name: "Instalamos kubernetes"
+- name: "Install kubernetes"
   yum:
       name: [ 'kubectl', 'kubeadm', 'kubelet' ]
       state: present
       disable_excludes: kubernetes
 
-- name: Añadimos repositorio de Docker para centos
+- name: Add docker repository for centos
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docer-ce.repo
