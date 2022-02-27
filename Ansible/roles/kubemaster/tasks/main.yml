@@ -108,12 +108,10 @@
 - debug:
         msg: "{{join_token.stdout}}"
         
- - name: Generate file to save join command
+- name: Generate file to save join command
   local_action: file path=./joinCommand state=touch
   become: no
   
- - name: Save command to file "join_token"
+- name: Save command to file "join_token"
   local_action: copy content={{ join_token.stdout }} dest=./join_token
   become: no 
-
-
