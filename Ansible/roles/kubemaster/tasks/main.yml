@@ -46,20 +46,21 @@
     state: started
     enabled: yes
   become: yes
-      
-- name: Set cgroup driver as systemd
-  copy:
-    dest: /etc/docker/daemon.json
-    content: |
-      {
-      "exec-opts": ["native.cgroupdriver=systemd"]
-      }
+
 - name: "Starting Kubelet Service"
   service:
       name: "kubelet"
       state: started
       enabled: yes
       
+- name: Confuring the docker daemon.json file
+  copy:
+    dest: /etc/docker/daemon.json
+    content: |
+      {
+      "exec-opts": ["native.cgroupdriver=systemd"]
+      }
+    
 - name: "Pulling the config images"
   shell: kubeadm config images pull
  
