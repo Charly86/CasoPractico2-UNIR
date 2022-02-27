@@ -61,7 +61,7 @@
       enabled: yes
       
 - name: "Initializing the Kubernetes cluster on Master Node"
-  command: "kubeadm init --pod-network-cidr={{ pod_cidr_network }} --ignore-preflight-errors=all"
+  command: "kubeadm init --ignore-preflight-errors=all"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
