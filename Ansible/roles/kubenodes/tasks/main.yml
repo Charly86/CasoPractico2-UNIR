@@ -100,4 +100,4 @@
   
 - name: Joining to the cluster
   become: yes
-  shell: "{{ hostvars['master']['join_command'] }}"
+  shell: "{{ hostvars[groups['master']]['join_command'] }}"
