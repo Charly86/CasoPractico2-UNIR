@@ -95,14 +95,20 @@
       net.bridge.bridge-nf-call-ip6tables = 1
       net.bridge.bridge-nf-call-iptables = 1
 
+- name: Open ports
+  shell: |
+    firewall-cmd --zone=public --permanent --add-port={10250,30000-32767}/tcp
+    firewall-cmd --reload
+    
 - name: "systemctl"
   shell: "sysctl --system"
   
-- name: Copy token to workes
-  copy: src={{join_token}} dest=kube_token
+- name: get file with command join
+  copy: src=./kubeadmJoin dest=./kubeadmJoin  
 
-- name: Join to the cluster
-  shell: |
-    kubeadm reset -f
-    cat kube_token | tail -2 > initoken.sh
-    sh initoken.sh
+- name: get command and save to variable kubeJoinLaunch
+  shell: cat ./kubeadmJoin 
+  register: kubeJoinLaunch
+
+- name: run join command
+  shell: "{{kubeJoinLaunch.stdout}}" 
