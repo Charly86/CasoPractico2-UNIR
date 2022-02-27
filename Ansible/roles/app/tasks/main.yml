@@ -12,7 +12,7 @@
    - "{{ files }}"
    
 - name: Deploy nginx
-  shell: "kubectl apply -f /root/{item}"
+  shell: "kubectl apply -f /root/{{ item }}"
   register: deploy
   with_items:
     - "{{ files }}"
