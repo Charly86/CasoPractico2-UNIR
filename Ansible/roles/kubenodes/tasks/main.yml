@@ -104,10 +104,10 @@
   shell: "sysctl --system"
   
 - name: get file with command join
-  copy: src=./kubeadmJoin dest=./kubeadmJoin  
+  copy: src=./join_token dest=./join_token  
 
 - name: get command and save to variable kubeJoinLaunch
-  shell: cat ./kubeadmJoin 
+  shell: cat ./join_token 
   register: kubeJoinLaunch
 
 - name: run join command
