@@ -2,7 +2,7 @@
 # tasks file for kubemaster
 
 - name: "Initializing the Kubernetes cluster on Master Node"
-  command: "kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all"
+  command: "kubeadm init --pod-network-cidr={{pod_cidr_network}} --ignore-preflight-errors=all"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
@@ -26,18 +26,15 @@
   command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
   ignore_errors: True
 
-- name: Install Tigera
+- name: Install Tigera operator
   shell: |
     kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
     
-- name: "Download custom-resources.yml"
-  command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
-  ignore_errors: True
-  
+
 - name: Download custom-resources.yml
   shell: |
     wget https://docs.projectcalico.org/manifests/custom-resources.yaml
-    sed -i "13s/.*/      cidr: 192.169.0.0\/16/" custom-resources.yaml
+    sed -i "13s/.*/      cidr: {{pod_cidr_network}}" custom-resources.yaml
     kubectl apply -f custom-resources.yaml
     
 - name: Install Ingress Controller
