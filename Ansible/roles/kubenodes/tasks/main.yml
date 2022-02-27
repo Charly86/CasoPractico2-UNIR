@@ -97,10 +97,7 @@
 
 - name: "systemctl"
   shell: "sysctl --system"
-  
-- name: Reset Kubernetes component
-  shell: "kubeadm reset"
-      
+    
 - name: Copy join command from Ansiblehost to the worker nodes.
   become: yes
   copy:
