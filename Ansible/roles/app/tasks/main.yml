@@ -2,7 +2,7 @@
 # tasks file for app
 
 - name: Deploy nginx
-  shell: "kubectl apply -f ../files/{{item}.yaml}"
+  shell: "kubectl apply -f ./files/{{item}.yml}"
   register: deploy
   with_items:
     - deployment
