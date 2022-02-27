@@ -1,1 +1,6 @@
 
+- hosts: master
+  tasks:
+    - name: Deploy nginx server
+      include_role:
+        name: app
