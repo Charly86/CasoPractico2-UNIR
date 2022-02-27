@@ -60,6 +60,9 @@
       state: started
       enabled: yes
       
+- name: "Pulling the config images"
+  shell: kubeadm config images pull
+  
 - name: "Initializing the Kubernetes cluster on Master Node"
   command: "kubeadm init --ignore-preflight-errors=all"
   ignore_errors: True
