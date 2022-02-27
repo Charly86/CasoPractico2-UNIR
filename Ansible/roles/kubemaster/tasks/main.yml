@@ -104,6 +104,10 @@
   command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
   ignore_errors: True
 
+- name: Install Ingress Controller
+  shell: |
+    kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
+    
 - name: "Create Join Token"
   command: "kubeadm token create --print-join-command"
   register: join_token
