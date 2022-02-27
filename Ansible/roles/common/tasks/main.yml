@@ -104,6 +104,12 @@
      name: docker
      state: restarted
 
+- name: Enable Firewalld
+  service:
+    name: firewalld
+    enabled: yes
+    state: started
+    
 - name: open firewall ports for calico
   shell: |
     firewall-cmd --permanent --add-port=8285/udp
