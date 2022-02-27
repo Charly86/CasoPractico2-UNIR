@@ -103,7 +103,7 @@
      name: docker
      state: restarted
 
-name: open firewall ports for calico
+- name: open firewall ports for calico
   shell: |
     firewall-cmd --permanent --add-port=8285/udp
     firewall-cmd --permanent --add-port=8472/udp
