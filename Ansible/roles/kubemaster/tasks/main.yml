@@ -26,10 +26,10 @@
   command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
   ignore_errors: True
 
-- name: Install calico
-  shell: |
-    kubectl create -f https://docs.projectcalico.org/manifests/canal.yaml
-    
+- name: "Install Calico"
+  command: "kubectl create -f https://docs.projectcalico.org/manifests/canal.yaml"
+  ignore_errors: True
+  
 - name: Install Ingress Controller
   shell: |
     kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
