@@ -9,12 +9,6 @@
       - wget
       state: present
 
-- name: Update system packages
-  dnf:
-    name: "*"
-    state: latest
-  become: yes
-
 - name: Disable SElinux
   selinux:
     state: disabled
