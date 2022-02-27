@@ -26,6 +26,20 @@
   command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
   ignore_errors: True
 
+- name: Install Tigera
+  shell: |
+    kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+    
+- name: "Download custom-resources.yml"
+  command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+  ignore_errors: True
+  
+- name: Download custom-resources.yml
+  shell: |
+    wget https://docs.projectcalico.org/manifests/custom-resources.yaml
+    sed -i "13s/.*/      cidr: 192.169.0.0\/16/" custom-resources.yaml
+    kubectl apply -f custom-resources.yaml
+    
 - name: Install Ingress Controller
   shell: |
     kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
