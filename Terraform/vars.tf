@@ -1,9 +1,3 @@
-variable "location" {
-  type = string
-  description = "Región de Azure donde crearemos la infraestructura"
-  default = "West Europe"
-}
-
 #Se configura una maquina más potente para el master y nfs
 variable "vm_size_master" {
   type = string
