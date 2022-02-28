@@ -57,6 +57,11 @@
     owner: "{{ ansible_effective_user_id }}"
     group: "{{ ansible_effective_group_id }}"
 
+- name: Install SDN Flannel
+  shell: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+  register: kubectl_sdn
+  become: yes
+  
 - name: Install Ingress Controller
   shell: |
     kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
