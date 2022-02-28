@@ -162,3 +162,6 @@
      
 - name: "Refreshing sysctl"
   shell: "sysctl --system"
+  
+- name: Reboot all VMs for applying SELinux config
+  reboot:
