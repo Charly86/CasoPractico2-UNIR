@@ -103,13 +103,7 @@
      name: docker
      state: restarted
 
-- name: Enable Firewalld
-  service:
-    name: firewalld
-    enabled: yes
-    state: started
-    
-    
+
 - name: "Configuring the Ip tables and refreshing sysctl"
   copy:
     dest: /etc/sysctl.d/k8s.conf
