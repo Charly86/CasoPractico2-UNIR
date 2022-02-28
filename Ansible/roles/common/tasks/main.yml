@@ -64,7 +64,7 @@
     state: enabled
   become: yes
   
-- name: Enable 8285 port udp protocol
+- name: Enable 8472 port udp protocol
   firewalld:
     port: 8472/udp
     permanent: true
