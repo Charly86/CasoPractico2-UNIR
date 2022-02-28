@@ -6,7 +6,7 @@
     state: directory
   become: yes
 
-- name: Enable and start FNS service
+- name: Enable and start NFS service
   systemd:
     name: nfs-server
     state: started
