@@ -64,18 +64,17 @@
     state: enabled
   become: yes
   
-- name: Enable 8285 port udp protocol
-  firewalld:
-    port: 8285/tcp
-    permanent: true
-    state: enabled
-  become: yes
-  
 - name: Enable 8472 port udp protocol
   firewalld:
     port: 8472/udp
     permanent: true
     state: enabled
+  become: yes
+  
+- name: Restart Firewalld service
+  systemd:
+    name: firewalld
+    state: restarted
   become: yes
   
 - name: Install Chrony (Red Hat/Centos)
