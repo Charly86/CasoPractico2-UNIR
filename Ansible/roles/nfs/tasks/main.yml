@@ -5,3 +5,39 @@
     path: /srv/nfs
     state: directory
   become: yes
+
+- name: Enable and start FNS service
+  systemd:
+    name: nfs-server
+    state: started
+    enabled: yes
+    masked: no
+  become: yes
+
+- name: Add master to /etc/exports
+  lineinfile:
+    dest: /etc/exports
+    line: "/srv/nfs/ {{ hostvars[item].ansible_host }}(rw,sync)"
+    state: present
+  with_items: "{{ groups.master }}"
+  become: yes
+  
+- name: Add workers to /etc/exports
+  lineinfile:
+    dest: /etc/exports
+    line: "/srv/nfs/ {{ hostvars[item].ansible_host }}(rw,sync)"
+    state: present
+  with_items: "{{ groups.workers }}"
+  become: yes
+  
+- name: Reload configuration /etc/exports
+  shell: |
+    exportfs -r
+    exportfs -s
+    
+- name: Firewall rules for the for the service to be accessible
+  shell: |
+    firewall-cmd --permanent --add-service=nfs
+    firewall-cmd --permanent --add-service=rpc-bind
+    firewall-cmd --permanent --add-service=mountd
+    firewall-cmd --reload
