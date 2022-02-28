@@ -29,6 +29,48 @@
     state: disabled
   become: yes
 
+- name: Enable Firewalld
+  service:
+    name: firewalld
+    enabled: yes
+    state: started
+    
+- name: Enable kernel module br_netfilter
+  modprobe:
+    name: br_netfilter
+    state: present
+  become: yes
+
+- name: Enable masquerade public zone
+  firewalld:
+    masquerade: yes
+    state: enabled
+    permanent: true
+    zone: public
+  become: yes
+
+- name: Configuring AllowZoneDrifting=no to firewalld
+  lineinfile:
+    dest: /etc/firewalld/firewalld.conf
+    regexp: '^AllowZoneDrifting='
+    line: "AllowZoneDrifting=no"
+    state: present
+  become: yes
+  
+- name: Enable 8285 port udp protocol
+  firewalld:
+    port: 8285/udp
+    permanent: true
+    state: enabled
+  become: yes
+  
+- name: Enable 8285 port udp protocol
+  firewalld:
+    port: 8472/udp
+    permanent: true
+    state: enabled
+  become: yes
+  
 - name: Install Chrony (Red Hat/Centos)
   dnf:
     name: chrony
@@ -76,13 +118,12 @@
       state: latest
   become: yes
   
-- name: update kernel settings
-  sysctl:
-   name: net.bridge.bridge-nf-call-iptables
-   value: 1
-   sysctl_set: yes
-   state: present
-   reload: yes 
+- name: "Configuring the Ip tables "
+  copy:
+    dest: /etc/sysctl.d/k8s.conf
+    content: |
+      net.bridge.bridge-nf-call-ip6tables = 1
+      net.bridge.bridge-nf-call-iptables = 1
 
 - name: Start Docker service
   service:
@@ -113,18 +154,5 @@
      name: docker
      state: restarted
      
-- name: Enable Firewalld
-  service:
-    name: firewalld
-    enabled: yes
-    state: started
-
-- name: "Configuring the Ip tables and refreshing sysctl"
-  copy:
-    dest: /etc/sysctl.d/k8s.conf
-    content: |
-      net.bridge.bridge-nf-call-ip6tables = 1
-      net.bridge.bridge-nf-call-iptables = 1
-     
-- name: "systemctl"
+- name: "Refreshing sysctl"
   shell: "sysctl --system"
