@@ -60,6 +60,7 @@
 - name: Instalamos el operador de Tigera
   shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
   register: kubectl_operator
+  ignore_errors: True
   become: yes
 
 - name: Copiando el custom resources de Calico
