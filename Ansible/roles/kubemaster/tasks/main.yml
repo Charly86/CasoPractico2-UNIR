@@ -57,8 +57,20 @@
     owner: "{{ ansible_effective_user_id }}"
     group: "{{ ansible_effective_group_id }}"
 
-- name: Install SDN Flannel
-  shell: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+- name: Instalamos el operador de Tigera
+  shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
+  register: kubectl_operator
+  become: yes
+
+- name: Copiando el custom resources de Calico
+  copy:
+    src: custom-resources.yaml
+    dest: /root/custom-resources.yaml
+    mode: '0644'
+  become: yes
+  
+- name: Instalamos la SDN Calico
+  shell: kubectl apply -f /root/custom-resources.yaml
   register: kubectl_sdn
   become: yes
   
