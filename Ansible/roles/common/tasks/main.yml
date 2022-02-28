@@ -96,7 +96,7 @@
     masked: no
   become: yes
   
-- name: "Configuing Kubernetes repository"
+- name: "Configuring Kubernetes repository"
   yum_repository:
       name: kubernetes
       description: "Kubernetes"
