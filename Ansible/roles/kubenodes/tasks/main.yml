@@ -3,13 +3,13 @@
 
 - name: Enable 10250 port TCP protocol
   firewalld:
-    port: 10250/TCP
+    port: 10250/tcp
     permanent: true
     zone: public
     state: enabled
   become: yes
   
-- name: Enable ports range 30000-32767 tcp protocol to join kubernetes cluster
+- name: Enable ports range between 30000-32767 tcp protocol to join kubernetes cluster
   firewalld:
     port: 30000-32767/tcp
     permanent: true
