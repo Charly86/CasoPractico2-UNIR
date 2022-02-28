@@ -60,9 +60,6 @@
 - name: install Pod network
   become: yes
   shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-
-- name: Install Ingress Controller
-  shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
     
 - name: "Create Join Token"
   command: "kubeadm token create --print-join-command"
