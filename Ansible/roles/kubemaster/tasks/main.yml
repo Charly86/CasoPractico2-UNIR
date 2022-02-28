@@ -60,11 +60,6 @@
 - name: install Pod network
   become: yes
   shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
-  
-- name: Install canal.yml
-  become: yes
-  shell: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
-
 
 - name: Install Ingress Controller
   shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/v1.5/deploy/haproxy-ingress.yaml
