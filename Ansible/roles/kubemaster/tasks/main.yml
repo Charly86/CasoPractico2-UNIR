@@ -31,13 +31,13 @@
     ip a | grep eth0 | grep inet | awk '{print $2}'
   register: dockerIp
 
-- name: ASllow containers to access localhost
+- name: Allow containers to access localhost
   shell: |
     firewall-cmd --zone=public --permanent --add-rich-rule 'rule family=ipv4 source address={{dockerIp.stdout}} accept'
     firewall-cmd --reload
     
 - name: "Initializing the Kubernetes cluster on Master Node"
-  command: "kubeadm init --apiserver-advertise-address {{ ansible_host }} --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all"
+  command: "kubeadm init --upload-certs --control-plane-endpoint=master-nfs.cvillar --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
@@ -60,7 +60,6 @@
 - name: Instalamos el operador de Tigera
   shell: kubectl create -f https://docs.projectcalico.org/manifests/tigera-operator.yaml
   register: kubectl_operator
-  ignore_errors: True
   become: yes
 
 - name: Copiando el custom resources de Calico
