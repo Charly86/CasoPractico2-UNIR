@@ -7,13 +7,13 @@ resource "azurerm_linux_virtual_machine" "myVMMaster" {
     location            = azurerm_resource_group.rg.location
     size                = var.vm_size_master
     count               = length(var.vms_master)
-    admin_username      = "adminUsername"
+    admin_username      = var.ssh_user
     network_interface_ids = [ azurerm_network_interface.myMasterNFSNic[count.index].id ]
     disable_password_authentication = true
 
     admin_ssh_key {
-        username   = "adminUsername"
-        public_key = file("~/.ssh/id_rsa.pub")
+        username   = var.ssh_user
+        public_key = file(var.public_key_path)
     }
 
     os_disk {
@@ -53,13 +53,13 @@ resource "azurerm_linux_virtual_machine" "myVMWorkers" {
     location            = azurerm_resource_group.rg.location
     size                = var.vm_size_workers
     count               = length(var.vms_workers)
-    admin_username      = "adminUsername"
+    admin_username      = var.ssh_user
     network_interface_ids = [ azurerm_network_interface.myWorkersNic[count.index].id ]
     disable_password_authentication = true
 
     admin_ssh_key {
-        username   = "adminUsername"
-        public_key = file("~/.ssh/id_rsa.pub")
+        username   = var.ssh_user
+        public_key = file(var.public_key_path)
     }
 
     os_disk {
