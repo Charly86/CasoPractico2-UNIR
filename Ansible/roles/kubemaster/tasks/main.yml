@@ -12,7 +12,7 @@
     firewall-cmd --reload
     
 - name: "Initializing the Kubernetes cluster on Master Node"
-  command: "kubeadm init --pod-network-cidr=10.255.0.0/16 --ignore-preflight-errors=all"
+  command: "kubeadm init --pod-network-cidr=192.169.0.0/16 --ignore-preflight-errors=all"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
@@ -33,7 +33,7 @@
     group: "{{ ansible_effective_group_id }}"
 
 - name: "Downloading CNI Plugin"
-  command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/2140ac876ef134e0ed5af15c65e414cf26827915/Documentation/kube-flannel.yml"
+  command: "kubectl apply  -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
   ignore_errors: True
 
 - name: Install Ingress Controller
