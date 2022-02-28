@@ -11,7 +11,6 @@
       - rpcbind
       - chrony
       - python3
-      - firewalld
       - nfs4-acl-tools
       state: present
 
@@ -110,11 +109,6 @@
     enabled: yes
     state: started
     
-- name: open firewall ports for calico
-  shell: |
-    firewall-cmd --permanent --add-port=8285/udp
-    firewall-cmd --permanent --add-port=8472/udp
-    firewall-cmd --reload
     
 - name: "Configuring the Ip tables and refreshing sysctl"
   copy:
