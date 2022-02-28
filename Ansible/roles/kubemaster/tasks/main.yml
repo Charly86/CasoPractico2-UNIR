@@ -25,7 +25,17 @@
     name: firewalld
     state: restarted
   become: yes
-  
+
+- name: Get Docker IP
+  shell: |
+    ip a | grep eth0 | grep inet | awk '{print $2}'
+  register: dockerIp
+
+- name: ASllow containers to access localhost
+  shell: |
+    firewall-cmd --zone=public --permanent --add-rich-rule 'rule family=ipv4 source address={{dockerIp.stdout}} accept'
+    firewall-cmd --reload
+    
 - name: "Initializing the Kubernetes cluster on Master Node"
   command: "kubeadm init --pod-network-cidr=192.169.0.0/16 --ignore-preflight-errors=all"
   ignore_errors: True
