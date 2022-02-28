@@ -37,7 +37,7 @@
     firewall-cmd --reload
     
 - name: "Initializing the Kubernetes cluster on Master Node"
-  command: "kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all"
+  command: "kubeadm init --upload-certs --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
