@@ -19,6 +19,12 @@
   when: hostvars[item].ansible_host is defined
   with_items: "{{ groups.workers }}"
   become: yes
+ 
+- name: Restart Firewalld service
+  systemd:
+    name: firewalld
+    state: restarted
+  become: yes
   
 - name: "Initializing the Kubernetes cluster on Master Node"
   command: "kubeadm init --pod-network-cidr=192.169.0.0/16 --ignore-preflight-errors=all"
