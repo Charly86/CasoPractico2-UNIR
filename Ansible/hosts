@@ -1,12 +1,12 @@
 [all:vars]
-ansible_user=adminusername
+ansible_user=adminUsername
 
 [master]
-vm-master ansible_host=192.168.17.129
+vm-master ansible_host=52.232.76.225
 
 [workers]
-vm-worker01 ansible_host=192.168.17.130
+vm-worker01 ansible_host=52.232.76.228
 
 
 [nfs]
-vm-nfs ansible_host=192.168.17.129
+vm-nfs ansible_host=52.232.76.225
