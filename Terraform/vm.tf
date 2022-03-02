@@ -1,8 +1,8 @@
-# Creamos una máquina virtual para master
+# Creamos una máquina virtual para master y NFS
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine
 
-resource "azurerm_linux_virtual_machine" "myVMMaster" {
-    name                = "vm-${var.vms_master[count.index]}"
+resource "azurerm_linux_virtual_machine" "myVMMasterNFS" {
+    name                = "vm-${var.vms_master_NFS[count.index]}"
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
     size                = var.vm_size_master
@@ -44,7 +44,7 @@ resource "azurerm_linux_virtual_machine" "myVMMaster" {
 
 }
 
-# Creamos una máquina virtual para workers y nfs
+# Creamos una máquina virtual para workers
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/linux_virtual_machine
 
 resource "azurerm_linux_virtual_machine" "myVMWorkers" {

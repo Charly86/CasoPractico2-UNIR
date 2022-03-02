@@ -12,7 +12,7 @@ variable "vm_size_workers" {
   default = "Standard_A2_v2" # 4 GB, 2 CPU 
 }
 
-variable "vms_master" {
+variable "vms_master_NFS" {
   type = list(string)
   description = "Máquinas virtuales a crear como master y nfs"
   default = ["master"]
