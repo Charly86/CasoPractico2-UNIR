@@ -17,7 +17,7 @@
     state: enabled
   become: yes
   
-- name: Restaet Firewalld service
+- name: Restart Firewalld service
   systemd:
     name: firewalld
     state: restarted

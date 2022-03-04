@@ -18,12 +18,6 @@
   when: hostvars[item].ansible_host is defined
   with_items: "{{ groups.workers }}"
   become: yes
- 
-- name: Restart Firewalld service
-  systemd:
-    name: firewalld
-    state: restarted
-  become: yes
 
 - name: Get Docker IP
   shell: |
@@ -33,10 +27,15 @@
 - name: Allow containers to access localhost
   shell: |
     firewall-cmd --zone=public --permanent --add-rich-rule 'rule family=ipv4 source address={{dockerIp.stdout}} accept'
-    firewall-cmd --reload
+
+- name: Restart Firewalld service
+  systemd:
+    name: firewalld
+    state: restarted
+  become: yes
     
 - name: "Initializing the Kubernetes cluster on Master Node"
-  command: "kubeadm init --pod-network-cidr=10.244.0.0/16 --ignore-preflight-errors=all"
+  command: "kubeadm init --pod-network-cidr={{pod-network-cidr}} --ignore-preflight-errors=all"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
