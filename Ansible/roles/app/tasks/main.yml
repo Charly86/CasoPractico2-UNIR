@@ -1,6 +1,6 @@
 ---
 # tasks file for app
-- name: Create kubernetesNamespace
+- name: Create namespace
   k8s:
     name: test-ansible
     api_version: v1
