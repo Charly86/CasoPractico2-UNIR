@@ -1,7 +1,7 @@
 ---
 # tasks file for app
 - name: Create namespace
-  kubernetes.core.k8s:
+  k8s:
     name: test-ansible
     api_version: v1
     kind: Namespace
@@ -17,13 +17,13 @@
        - "{{ files }}"
 
 - name: Create pod
-  kubernetes.core.k8s:
+  k8s:
      state: present      
      namespace: test-ansible  
      src: /tmp/pod.yaml
 
 - name: Get the existing Pods in the kubernetes cluster
-  kubernetes.core.k8s:
+  k8s:
     api_version: v1
     kind: pod
     name: nginx
@@ -32,7 +32,7 @@
 
 # Creating a Kubernetes deployment in test-ansible using file stored locally
 - name: Create a kubernetes deployment
-  kubernetes.core.k8s:
+  k8s:
     state: present            
     namespace: test-ansible 
     src: /tmp/deployment.yaml
