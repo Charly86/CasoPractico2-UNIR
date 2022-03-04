@@ -2,7 +2,7 @@
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_security_group
 
 resource "azurerm_network_security_group" "mySecGroupMasterNFS" {
-    name                = "sshtraffic-${var.vms_master[count.index]}"
+    name                = "sshtraffic-${var.vms_master_NFS[count.index]}"
     count               = length(var.vms_master_NFS)
     location            = azurerm_resource_group.rg.location
     resource_group_name = azurerm_resource_group.rg.name
@@ -28,7 +28,7 @@ resource "azurerm_network_security_group" "mySecGroupMasterNFS" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface_security_group_association
 
 resource "azurerm_network_interface_security_group_association" "mySecGroupAssociationMasterNFS" {
-    count                     = length(var.vms_master)
+    count                     = length(var.vms_master_NFS)
     network_interface_id      = azurerm_network_interface.myMasterNFSNic[count.index].id
     network_security_group_id = azurerm_network_security_group.mySecGroupMasterNFS[count.index].id
     

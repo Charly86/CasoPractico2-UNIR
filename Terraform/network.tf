@@ -33,7 +33,7 @@ resource "azurerm_network_interface" "myMasterNFSNic" {
   resource_group_name = azurerm_resource_group.rg.name
 
     ip_configuration {
-    name                           = "ipconf-${var.vms_master[count.index]}"
+    name                           = "ipconf-${var.vms_master_NFS[count.index]}"
     subnet_id                      = azurerm_subnet.mySubnet.id 
     private_ip_address_allocation  = "Static"
     private_ip_address             = "10.0.1.${count.index + 10}"
@@ -73,8 +73,8 @@ resource "azurerm_network_interface" "myWorkersNic" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/public_ip
 
 resource "azurerm_public_ip" "myPublicMasterNFSIp" {
-  name                = "pubip-${var.vms_master[count.index]}"
-  count               = length(var.vms_master)  
+  name                = "pubip-${var.vms_master_NFS[count.index]}"
+  count               = length(var.vms_master_NFS)  
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
   allocation_method   = "Dynamic"
