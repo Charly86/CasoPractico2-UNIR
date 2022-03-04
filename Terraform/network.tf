@@ -27,8 +27,8 @@ resource "azurerm_subnet" "mySubnet" {
 # https://registry.terraform.io/providers/hashicorp/azurerm/latest/docs/resources/network_interface
 
 resource "azurerm_network_interface" "myMasterNFSNic" {
-  name                = "nic-${var.vms_master[count.index]}"
-  count               = length(var.vms_master)  
+  name                = "nic-${var.vms_master_NFS[count.index]}"
+  count               = length(var.vms_master_NFS)  
   location            = azurerm_resource_group.rg.location
   resource_group_name = azurerm_resource_group.rg.name
 

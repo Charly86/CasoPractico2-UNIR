@@ -3,7 +3,7 @@
 
 resource "azurerm_network_security_group" "mySecGroupMasterNFS" {
     name                = "sshtraffic-${var.vms_master[count.index]}"
-    count               = length(var.vms_master)
+    count               = length(var.vms_master_NFS)
     location            = azurerm_resource_group.rg.location
     resource_group_name = azurerm_resource_group.rg.name
 
