@@ -1,37 +1,37 @@
 
-    - name: Create kubernetesNamespace
-      k8s:
-        name: test-ansible
-        api_version: v1
-        kind: Namespace
-        state: present    
+- name: Create kubernetesNamespace
+  k8s:
+    name: test-ansible
+    api_version: v1
+    kind: Namespace
+    state: present    
     
-    - name: Copy deployment and pod file to master
-      become: yes
-      copy:
-        src: "{{ item }}"
-        dest: "/tmp/{{ item }}"
-        mode: 0777
-      with_items:
+- name: Copy deployment and pod file to master
+  become: yes
+  copy:
+     src: "{{ item }}"
+     dest: "/tmp/{{ item }}"
+     mode: 0777
+     with_items:
        - "{{ files }}"
 
-    - name: Create pod
-      k8s:
-        state: present      
-        namespace: test-ansible  
-        src: /tmp/pod.yaml
+- name: Create pod
+  k8s:
+     state: present      
+     namespace: test-ansible  
+     src: /tmp/pod.yaml
 
-    - name: Get the existing Pods in the kubernetes cluster
-      k8s:
-        api_version: v1
-        kind: pod
-        name: nginx
-        namespace: test-ansible
-      register: web_service
+- name: Get the existing Pods in the kubernetes cluster
+  k8s:
+    api_version: v1
+    kind: pod
+    name: nginx
+    namespace: test-ansible
+    register: web_service
 
 # Creating a Kubernetes deployment in test-ansible using file stored locally
-    - name: Create a kubernetes deployment
-      k8s:
-        state: present            
-        namespace: test-ansible 
-        src: /tmp/deployment.yaml
+- name: Create a kubernetes deployment
+  k8s:
+    state: present            
+    namespace: test-ansible 
+    src: /tmp/deployment.yaml
