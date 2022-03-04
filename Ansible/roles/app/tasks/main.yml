@@ -1,6 +1,4 @@
----
-- name: Create kubernetes namespace
-  tasks:
+
     - name: Create kubernetesNamespace
       k8s:
         name: test-ansible
