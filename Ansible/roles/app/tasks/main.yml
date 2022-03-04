@@ -1,25 +1,39 @@
 ---
-# tasks file for app
+- name: Create kubernetes namespace
+  tasks:
+    - name: Create kubernetesNamespace
+      k8s:
+        name: test-ansible
+        api_version: v1
+        kind: Namespace
+        state: present    
+    
+    - name: Copy deployment and pod file to master
+      become: yes
+      copy:
+        src: "{{ item }}"
+        dest: "/tmp/{{ item }}"
+        mode: 0777
+      with_items:
+       - "{{ files }}"
 
+    - name: Create pod
+      k8s:
+        state: present      
+        namespace: test-ansible  
+        src: /tmp/pod.yaml
 
-- name: Copy deployment file to master
-  become: yes
-  copy:
-      src: "{{ item }}"
-      dest: "/root/{{ item }}"
-      mode: 0777
-  with_items:
-   - "{{ files }}"
-   
-- name: Deploy nginx
-  shell: "kubectl apply -f /root/{{ item }}"
-  register: deploy
-  with_items:
-    - "{{ files }}"
-  become: yes
+    - name: Get the existing Pods in the kubernetes cluster
+      k8s:
+        api_version: v1
+        kind: pod
+        name: nginx
+        namespace: test-ansible
+      register: web_service
 
-- name: Show deployment results
-  debug:
-    msg: "{{item.stdout_lines }}"
-  with_items:
-    - "{{ deploy.results }}"
+# Creating a Kubernetes deployment in test-ansible using file stored locally
+    - name: Create a kubernetes deployment
+      k8s:
+        state: present            
+        namespace: test-ansible 
+        src: /tmp/deployment.yaml

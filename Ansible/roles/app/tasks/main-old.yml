@@ -1,0 +1,24 @@
+---
+# tasks file for app
+
+- name: Copy deployment file to master
+  become: yes
+  copy:
+      src: "{{ item }}"
+      dest: "/root/{{ item }}"
+      mode: 0777
+  with_items:
+   - "{{ files }}"
+   
+- name: Deploy nginx
+  shell: "kubectl apply -f /root/{{ item }}"
+  register: deploy
+  with_items:
+    - "{{ files }}"
+  become: yes
+
+- name: Show deployment results
+  debug:
+    msg: "{{item.stdout_lines }}"
+  with_items:
+    - "{{ deploy.results }}"
