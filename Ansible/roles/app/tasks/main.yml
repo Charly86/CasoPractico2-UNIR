@@ -1,4 +1,5 @@
-
+---
+# tasks file for app
 - name: Create kubernetesNamespace
   k8s:
     name: test-ansible
