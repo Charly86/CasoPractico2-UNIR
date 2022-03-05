@@ -15,7 +15,7 @@ variable "vm_size_workers" {
 variable "vms_master_NFS" {
   type = list(string)
   description = "Máquinas virtuales a crear como master y nfs"
-  default = ["master"]
+  default = ["masterNFS"]
 }
 
 variable "vms_workers" {

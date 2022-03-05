@@ -10,7 +10,7 @@
   with_items:
    - "{{ files }}"
    
-- name: Deploy nginx
+- name: Deploy deployment.yml file nginx
   shell: "kubectl apply -f /root/{{ item }}"
   register: deploy
   with_items:

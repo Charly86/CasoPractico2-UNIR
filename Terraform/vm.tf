@@ -3,9 +3,10 @@
 
 resource "azurerm_linux_virtual_machine" "myVMMasterNFS" {
     name                = "vm-${var.vms_master_NFS[count.index]}"
+    computer_name       = "vm-${var.vms_master_NFS[count.index]}-cvillar.unir"  # hostname para la maquina que se utiliza en el inventario de ansible
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
-    size                = var.vm_size_master
+    size                = var.vm_size_master  # Tamaño de las maquinas
     count               = length(var.vms_master_NFS)
     admin_username      = var.ssh_user
     network_interface_ids = [ azurerm_network_interface.myMasterNFSNic[count.index].id ]
@@ -49,9 +50,10 @@ resource "azurerm_linux_virtual_machine" "myVMMasterNFS" {
 
 resource "azurerm_linux_virtual_machine" "myVMWorkers" {
     name                = "vm-${var.vms_workers[count.index]}"
+    computer_name       = "vm-${var.vms_workers[count.index]}-cvillar.unir"  # hostname para la maquina que se utiliza en el inventario de ansible
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
-    size                = var.vm_size_workers
+    size                = var.vm_size_workers  # Tamaño de las maquinas
     count               = length(var.vms_workers)
     admin_username      = var.ssh_user
     network_interface_ids = [ azurerm_network_interface.myWorkersNic[count.index].id ]
