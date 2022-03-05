@@ -7,7 +7,6 @@
     permanent: true
     zone: public
     state: enabled
-  become: yes
   
 - name: Enable ports range between 30000-32767 tcp protocol to join kubernetes cluster
   firewalld:
@@ -15,13 +14,11 @@
     permanent: true
     zone: public
     state: enabled
-  become: yes
   
 - name: Restart Firewalld service
   systemd:
     name: firewalld
     state: restarted
-  become: yes
   
 - name: Copy join command from Ansiblehost to the worker nodes.
   become: yes
@@ -31,6 +28,5 @@
       mode: 0777
        
 - name: Join the Worker nodes to the cluster.
-  become: yes
   shell: /tmp/join_token
   register: joined_or_not
