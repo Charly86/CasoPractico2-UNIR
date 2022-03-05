@@ -63,7 +63,10 @@
   become: yes
   shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/master/deploy/haproxy-ingress.yaml
 
-    
+- name: install Calico Azure
+  become: yes
+  shell: kubectl apply -f kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+
 - name: "Create Join Token"
   command: "kubeadm token create --print-join-command"
   register: join_token
