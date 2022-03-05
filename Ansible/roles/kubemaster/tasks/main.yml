@@ -53,13 +53,13 @@
     group: "{{ ansible_effective_group_id }}"
 
 - name: install Pod network
-  shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
+  command: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
 
 - name: install ingress controller
-  shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/master/deploy/haproxy-ingress.yaml
+  command: "kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/master/deploy/haproxy-ingress.yaml"
 
 - name: install Calico SDN Azure
-  shell: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
+  command: "kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml"
 
 - name: "Create Join Token"
   command: "kubeadm token create --print-join-command"

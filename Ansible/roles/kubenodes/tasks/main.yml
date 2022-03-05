@@ -28,5 +28,5 @@
       mode: 0777
        
 - name: Join the Worker nodes to the cluster.
-  shell: /tmp/join_token
+  command: "/tmp/join_token"
   register: joined_or_not

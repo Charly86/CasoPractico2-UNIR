@@ -139,7 +139,7 @@
       }
     
 - name: "Pulling the config images"
-  shell: kubeadm config images pull
+  command: "kubeadm config images pull"
  
 - name: "Restarting the docker service"
   service:
@@ -147,4 +147,4 @@
      state: restarted
      
 - name: "Refreshing sysctl"
-  shell: "sysctl --system"
+  command: "sysctl --system"

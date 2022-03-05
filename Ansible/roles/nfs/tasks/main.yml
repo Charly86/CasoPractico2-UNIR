@@ -31,12 +31,21 @@
     exportfs -r
     exportfs -s
     
+- name: Firewall rules for the for the service to be accessibl
+  firewalld:
+    add-service: nfs
+    permanent: true
+
 - name: Firewall rules for the for the service to be accessible
-  shell: |
-    firewall-cmd --permanent --add-service=nfs
-    firewall-cmd --permanent --add-service=rpc-bind
-    firewall-cmd --permanent --add-service=mountd
-    
+  firewalld:
+    add-service: rpc-bind
+    permanent: true
+
+- name: Firewall rules for the for the service to be accessible
+  firewalld:
+    add-service: mountd
+    permanent: true
+
 - name: Restart Firewalld service
   systemd:
     name: firewalld
