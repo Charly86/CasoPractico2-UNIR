@@ -24,7 +24,11 @@
   register: dockerIp
 
 - name: Allow containers to access localhost
-  shell: firewall-cmd --zone=public --permanent --add-rich-rule 'rule family=ipv4 source address={{dockerIp.stdout}} accept'
+  firewalld:
+    rich_rule: "rule family=ipv4 source address={{dockerIp.stdout}} accept"
+    permanent: true
+    state: enabled
+    zone: public
 
 - name: Restart Firewalld service
   systemd:
