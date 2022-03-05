@@ -34,17 +34,20 @@
 - name: Firewall rules for the for the service to be accessibl
   firewalld:
     add-service: nfs
-    state: permanent
+    permanent: true
+    state: enabled
 
 - name: Firewall rules for the for the service to be accessible
   firewalld:
     add-service: rpc-bind
-    state: permanent
+    permanent: true
+    state: enabled
 
 - name: Firewall rules for the for the service to be accessible
   firewalld:
     add-service: mountd
-    state: permanent
+    permanent: true
+    state: enabled
 
 - name: Restart Firewalld service
   systemd:
