@@ -32,7 +32,7 @@
     state: restarted
     
 - name: "Install CNI plugin (Container Network Interface) and define PODs network"
-  command: "kubeadm init --pod-network-cidr={{cidrPodNetwork}} --ignore-preflight-errors=all"
+  command: "kubeadm init --pod-network-cidr={{cidrPodNetwork}} --allocate-node-cidrs=true --ignore-preflight-errors=all"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
@@ -58,7 +58,7 @@
 - name: install ingress controller
   shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/master/deploy/haproxy-ingress.yaml
 
-- name: install Calico Azure
+- name: install Calico SDN Azure
   shell: kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
 
 - name: "Create Join Token"
