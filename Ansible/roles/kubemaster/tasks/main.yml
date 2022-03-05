@@ -32,7 +32,7 @@
     state: restarted
     
 - name: "Install CNI plugin (Container Network Interface) and define PODs network"
-  command: "kubeadm init --pod-network-cidr={{cidrPodNetwork}} --allocate-node-cidrs=true --ignore-preflight-errors=all"
+  command: "kubeadm init --pod-network-cidr={{cidrPodNetwork}} --ignore-preflight-errors=all"
   ignore_errors: True
 
 - name: "Configuration Files Setup"
