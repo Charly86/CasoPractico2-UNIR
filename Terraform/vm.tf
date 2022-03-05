@@ -21,11 +21,6 @@ resource "azurerm_linux_virtual_machine" "myVMMasterNFS" {
         storage_account_type = "Standard_LRS"
     }
 
-    os_profile {
-        computer_name  = "vm-${var.vms_master_NFS[count.index]}-cvillar.unir"  # hostname para la maquina
-    
-    }
-
     plan {
         name      = "centos-8-stream-free"
         product   = "centos-8-stream-free"
@@ -71,11 +66,6 @@ resource "azurerm_linux_virtual_machine" "myVMWorkers" {
     os_disk {
         caching              = "ReadWrite"
         storage_account_type = "Standard_LRS"
-    }
-
-    os_profile {
-        computer_name  = "vm-${var.vms_workers[count.index]}-cvillar.unir"  # hostname para la maquina
-    
     }
 
     plan {
