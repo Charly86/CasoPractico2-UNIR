@@ -4,7 +4,6 @@
   file:
     path: /srv/nfs
     state: directory
-  become: yes
 
 - name: Enable and start NFS service
   systemd:
@@ -12,7 +11,6 @@
     state: started
     enabled: yes
     masked: no
-  become: yes
 
 - name: Add master to /etc/exports
   lineinfile:
@@ -28,12 +26,10 @@
     line: "/srv/nfs/ {{ hostvars[item].ansible_host }}(rw,sync)"
     state: present
   with_items: "{{ groups.workers }}"
-  become: yes
   
 - name: Reload configuration /etc/exports
-  shell: |
-    exportfs -r
-    exportfs -s
+  shell: exportfs -r
+   
     
 - name: Firewall rules for the for the service to be accessible
   shell: |
@@ -45,4 +41,3 @@
   systemd:
     name: firewalld
     state: restarted
-  become: yes

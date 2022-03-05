@@ -17,22 +17,19 @@
     state: enabled
   when: hostvars[item].ansible_host is defined
   with_items: "{{ groups.workers }}"
-  become: yes
+  
 
 - name: Get Docker IP
-  shell: |
-    ip a | grep eth0 | grep inet | awk '{print $2}'
+  shell: ip a | grep eth0 | grep inet | awk '{print $2}'
   register: dockerIp
 
 - name: Allow containers to access localhost
-  shell: |
-    firewall-cmd --zone=public --permanent --add-rich-rule 'rule family=ipv4 source address={{dockerIp.stdout}} accept'
+  shell: firewall-cmd --zone=public --permanent --add-rich-rule 'rule family=ipv4 source address={{dockerIp.stdout}} accept'
 
 - name: Restart Firewalld service
   systemd:
     name: firewalld
     state: restarted
-  become: yes
     
 - name: "Initializing the Kubernetes cluster on Master Node"
   command: "kubeadm init --pod-network-cidr={{cidrPodNetwork}} --ignore-preflight-errors=all"
@@ -56,15 +53,12 @@
     group: "{{ ansible_effective_group_id }}"
 
 - name: install Pod network
-  become: yes
   shell: kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml
 
 - name: install ingress controller
-  become: yes
   shell: kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/master/deploy/haproxy-ingress.yaml
 
 - name: install Calico Azure
-  become: yes
   shell: kubectl apply -f kubectl apply -f https://docs.projectcalico.org/manifests/canal.yaml
 
 - name: "Create Join Token"
@@ -75,5 +69,4 @@
         msg: "{{join_token.stdout}}"
         
 - name: Copy join command to local file.
-  become: yes
   local_action: copy content="{{ join_token.stdout_lines[0] }}" dest="/tmp/join_token" mode=0777

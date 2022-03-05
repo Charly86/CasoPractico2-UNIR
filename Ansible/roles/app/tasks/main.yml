@@ -2,7 +2,6 @@
 # tasks file for app
 
 - name: Copy deployment file to master
-  become: yes
   copy:
       src: "{{ item }}"
       dest: "/root/{{ item }}"
@@ -15,10 +14,14 @@
   register: deploy
   with_items:
     - "{{ files }}"
-  become: yes
 
 - name: Show deployment results
   debug:
     msg: "{{item.stdout_lines }}"
   with_items:
     - "{{ deploy.results }}"
+
+
+- name: Create service
+  shell: "kubectl create service nodeport nginx --tcp=80:80"
+  register: service

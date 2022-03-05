@@ -15,8 +15,7 @@
       state: present
 
 - name: Disable SWAP 
-  shell: |
-       swapoff -a
+  shell: swapoff -a
        
 - name: Disable SWAP in fstab 
   lineinfile:
@@ -27,7 +26,6 @@
 - name: Disable SElinux
   selinux:
     state: disabled
-  become: yes
 
 - name: Enable Firewalld
   service:
@@ -39,7 +37,6 @@
   modprobe:
     name: br_netfilter
     state: present
-  become: yes
 
 - name: Enable masquerade public zone
   firewalld:
@@ -47,7 +44,6 @@
     state: enabled
     permanent: true
     zone: public
-  become: yes
 
 - name: Configuring AllowZoneDrifting=no to firewalld
   lineinfile:
@@ -55,38 +51,32 @@
     regexp: '^AllowZoneDrifting='
     line: "AllowZoneDrifting=no"
     state: present
-  become: yes
   
 - name: Enable 8285 port udp protocol
   firewalld:
     port: 8285/udp
     permanent: true
     state: enabled
-  become: yes
   
 - name: Enable 8472 port udp protocol
   firewalld:
     port: 8472/udp
     permanent: true
     state: enabled
-  become: yes
   
 - name: Restart Firewalld service
   systemd:
     name: firewalld
     state: restarted
-  become: yes
   
 - name: Install Chrony (Red Hat/Centos)
   dnf:
     name: chrony
     state: present
-  become: yes
 
 - name: Configuring timezone to Europe/Madrid
   timezone:
     name: Europe/Madrid
-  become: yes
   
 - name: Enable Chronyd service (Red Hat)
   systemd:
@@ -94,7 +84,6 @@
     state: started
     enabled: yes
     masked: no
-  become: yes
   
 - name: "Configuring Kubernetes repository"
   yum_repository:
@@ -115,14 +104,12 @@
   get_url:
     url: https://download.docker.com/linux/centos/docker-ce.repo
     dest: /etc/yum.repos.d/docer-ce.repo
-  become: yes
       
 
 - name: Install Docker
   package:
       name: docker-ce
       state: latest
-  become: yes
   
 - name: "Configuring the Ip tables "
   copy:
@@ -136,7 +123,6 @@
     name: docker
     state: started
     enabled: yes
-  become: yes
 
 - name: "Starting Kubelet Service"
   service:

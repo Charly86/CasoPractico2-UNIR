@@ -1,5 +1,6 @@
 
 - hosts: master
+  become: true
   tasks:
     - name: Configuring app
       include_role:
