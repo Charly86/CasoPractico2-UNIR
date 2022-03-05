@@ -18,8 +18,7 @@
     line: "/srv/nfs/ {{ hostvars[item].ansible_host }}(rw,sync)"
     state: present
   with_items: "{{ groups.master }}"
-  become: yes
-  
+
 - name: Add workers to /etc/exports
   lineinfile:
     dest: /etc/exports
@@ -27,9 +26,10 @@
     state: present
   with_items: "{{ groups.workers }}"
   
-- name: Reload configuration /etc/exports
-  shell: exportfs -r
-   
+- name: Reload configuration /etc/exports to apply the new configuration
+  shell: |
+    exportfs -r
+    exportfs -s
     
 - name: Firewall rules for the for the service to be accessible
   shell: |
