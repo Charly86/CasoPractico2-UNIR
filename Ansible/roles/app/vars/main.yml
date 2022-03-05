@@ -1,3 +1,3 @@
 ---
 # vars file for app
-files: ['deployment.yml','pod.yml']
+files: ['deployment.yml']
