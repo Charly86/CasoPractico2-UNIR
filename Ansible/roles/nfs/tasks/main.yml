@@ -33,19 +33,19 @@
     
 - name: Firewall rules for the for the service to be accessibl
   firewalld:
-    add-service: nfs
+    service: nfs
     permanent: true
     state: enabled
 
 - name: Firewall rules for the for the service to be accessible
   firewalld:
-    add-service: rpc-bind
+    service: rpc-bind
     permanent: true
     state: enabled
 
 - name: Firewall rules for the for the service to be accessible
   firewalld:
-    add-service: mountd
+    service: mountd
     permanent: true
     state: enabled
 
