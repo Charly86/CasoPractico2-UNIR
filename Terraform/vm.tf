@@ -49,7 +49,6 @@ resource "azurerm_linux_virtual_machine" "myVMMasterNFS" {
 
 resource "azurerm_linux_virtual_machine" "myVMWorkers" {
     name                = "vm-${var.vms_workers[count.index]}"
-    computer_name       = "vm-${var.vms_workers[count.index]}-cvillar.unir"  # hostname para la maquina
     resource_group_name = azurerm_resource_group.rg.name
     location            = azurerm_resource_group.rg.location
     size                = var.vm_size_workers  # Tamaño de las maquinas
