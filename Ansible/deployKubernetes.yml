@@ -6,12 +6,14 @@
         name: common
 
 - hosts: master
+  become: true
   tasks:
     - name: Configuring master
       include_role:
         name: kubemaster
 
 - hosts: workers
+  become: true
   tasks:
     - name: Configuring workers
       include_role:

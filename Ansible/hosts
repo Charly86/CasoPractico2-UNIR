@@ -3,11 +3,11 @@ ansible_user=adminUsername
 ansible_python_interpreter=/usr/bin/python3
 
 [master]
-vm-master ansible_host=20.126.52.216
+vm-master ansible_host=20.105.171.96
 
 [workers]
-vm-worker01 ansible_host=20.126.53.224
+vm-worker01 ansible_host=20.105.168.87
 
 
 [nfs]
-vm-nfs ansible_host=20.126.52.216
+vm-nfs ansible_host=20.105.171.96
