@@ -21,12 +21,11 @@
     state: restarted
   
 - name: Copy join command from Ansiblehost to the worker nodes.
-  become: yes
   copy:
       src: /tmp/join_token
       dest: /tmp/join_token
       mode: 0777
        
 - name: Join the Worker nodes to the cluster.
-  command: "/tmp/join_token"
+  shell: /tmp/join_token
   register: joined_or_not
