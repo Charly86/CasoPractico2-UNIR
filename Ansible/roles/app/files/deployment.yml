@@ -6,14 +6,17 @@ spec:
   selector:
     matchLabels:
       app: nginx
+      run: load-balancer
   replicas: 2
   template:
     metadata:
       labels:
         app: nginx
+        run: load-balancer
     spec:
       containers:
-      - name: nginx
+      - name: nginxWebServer
         image: nginx:1.16.1
         ports:
         - containerPort: 80
+          protocol: TCP

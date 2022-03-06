@@ -22,6 +22,17 @@
     - "{{ deploy.results }}"
 
 
-- name: Create service
-  shell: "kubectl create service nodeport nginx --tcp=80:80"
+- name: Service object that exposes the deployment
+  shell: "kubectl expose deployment nginx-deployment --type=NodePort --name=nginx-service"
   register: service
+
+- name: Display information about the Service
+  shell: "kubectl describe services nginx-service"
+  debug:
+      msg: "{{service.stdout}}"
+
+- name: List the pods that are running the app
+  shell: "kubectl get pods --selector="run=load-balancer-example" --output=wide"
+  register: pods
+  debug:
+      msg: "{{pods.stdout}}"      
