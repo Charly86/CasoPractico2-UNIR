@@ -23,7 +23,7 @@
 
 
 - name: Service object that exposes the deployment
-  command: "kubectl expose deployment nginx-deployment --name=nginx-service"
+  command: "kubectl expose deployment nginx-deployment --name=nginx-service --port=8081 --targetPort=80"
   register: service
 
 - name: Display information about the Service

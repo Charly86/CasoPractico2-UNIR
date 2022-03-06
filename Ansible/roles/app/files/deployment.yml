@@ -30,4 +30,4 @@ spec:
       - path: /app_example
         backend:
           serviceName: nginx-service
-          servicePort: 80        
+          servicePort: 8081        
