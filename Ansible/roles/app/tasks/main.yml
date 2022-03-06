@@ -28,5 +28,8 @@
 
 - name: Display information about the Service
   shell: "kubectl describe services nginx-service"
+  register: information
+
+- name: Show informationa bout the service
   debug:
-      msg: "{{service.stdout}}"   
+    msg: "{{information.results }}"  
