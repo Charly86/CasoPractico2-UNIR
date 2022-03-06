@@ -16,4 +16,4 @@ spec:
       - name: my-nginx
         image: nginx:1.16.1
         ports:
-        - containerPort: 8080
+        - containerPort: 80
