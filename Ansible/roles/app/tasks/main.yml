@@ -33,5 +33,5 @@
 - name: Show informationa bout the service
   debug:
     msg: "{{item.stdout_lines }}"
- with_items:
+  with_items:
     - "{{ information.results }}"     
