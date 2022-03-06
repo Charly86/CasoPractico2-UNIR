@@ -17,18 +17,3 @@ spec:
         image: nginx:1.16.1
         ports:
         - containerPort: 80
----
-
-apiVersion: networking.k8s.io/v1beta1
-kind: Ingress
-metadata:
-  name: nginx-ingress
-spec:
-  rules:
-  - host: vm-masterNFS
-    http:
-      paths:
-      - path: /app_example
-        backend:
-          serviceName: nginx-service
-          servicePort: 8081  
