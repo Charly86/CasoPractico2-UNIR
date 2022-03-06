@@ -9,5 +9,7 @@ spec:
       paths:
       - path: /app_example
         backend:
-          serviceName: nginx-service
-          servicePort: 8081
+          service: 
+            name: ginx-service
+            port:
+              number: 8081
