@@ -1,7 +1,7 @@
 ---
 # tasks file for app
 
-- name: Copy deployment file to master
+- name: Copy deployment files to master
   copy:
       src: "{{ item }}"
       dest: "/root/{{ item }}"
@@ -9,7 +9,7 @@
   with_items:
    - "{{ files }}"
    
-- name: Deploy deployment.yml file nginx
+- name: Deploy the files
   shell: "kubectl apply -f /root/{{ item }}"
   register: deploy
   with_items:
