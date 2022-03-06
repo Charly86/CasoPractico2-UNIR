@@ -23,7 +23,7 @@
 
 
 - name: Service object that exposes the deployment
-  shell: "kubectl expose deployment nginx-deployment --type=NodePort --name=nginx-service"
+  shell: "kubectl expose deployment nginx-deployment"
   register: service
 
 - name: Display information about the Service

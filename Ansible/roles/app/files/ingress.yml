@@ -4,10 +4,10 @@ metadata:
   name: nginx-ingress
 spec:
   rules:
-  - host: vm-MasterNFS
+  - host: cvillar.unir.k8
     http:
       paths:
       - path: /
         backend:
           serviceName: nginx-deployment
-          servicePort: 80
+          servicePort: 8080
