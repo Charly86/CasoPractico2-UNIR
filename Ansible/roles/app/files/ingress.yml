@@ -7,7 +7,7 @@ spec:
   - host: vm-masterNFS
     http:
       paths:
-      - path: /
+      - path: /app_example
         backend:
           serviceName: nginx-service
           servicePort: 80
