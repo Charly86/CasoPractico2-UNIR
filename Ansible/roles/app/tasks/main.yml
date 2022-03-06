@@ -34,4 +34,4 @@
   debug:
     msg: "{{item.stdout_lines }}"
   with_items:
-    - "{{ information.results }}"     
+    - "{{ service.results }}"     

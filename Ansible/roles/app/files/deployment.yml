@@ -12,8 +12,10 @@ spec:
       labels:
         app: nginx
     spec:
+      type: NodePort
       containers:
       - name: my-nginx
         image: nginx:1.16.1
         ports:
         - containerPort: 80
+          nodePort: 30000
