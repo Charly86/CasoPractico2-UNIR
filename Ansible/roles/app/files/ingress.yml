@@ -4,13 +4,13 @@ metadata:
   name: nginx-ingress
 spec:
   rules:
-  - host: cvillar.unir
+  - host: cvillar.unir.cp2
     http:
       paths:
       - path: /testapp
         pathType: Prefix
         backend:
           service: 
-            name: ginx-service
+            name: nginx-service
             port:
               number: 8081
