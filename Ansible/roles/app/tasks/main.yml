@@ -29,10 +29,4 @@
 - name: Display information about the Service
   shell: "kubectl describe services nginx-service"
   debug:
-      msg: "{{service.stdout}}"
-
-- name: List the pods that are running the app
-  shell: "kubectl get pods --selector="run=load-balancer-example" --output=wide"
-  register: pods
-  debug:
-      msg: "{{pods.stdout}}"      
+      msg: "{{service.stdout}}"   
