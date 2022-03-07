@@ -57,6 +57,7 @@
     group: "{{ ansible_effective_group_id }}" 
 
 - name: Create directory to setup kubeconfig for the user
+  become: no
   command: "mkdir -p /home/$USER/.kube"
 
 - name: "Copying Configuration File to user directory"
