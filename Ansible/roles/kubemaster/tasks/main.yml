@@ -62,6 +62,7 @@
 
 - name: "Copying Configuration File to user directory"
   copy:
+    mode: 0777
     src: /etc/kubernetes/admin.conf
     dest: /home/$USER/.kube/config
     remote_src: yes
