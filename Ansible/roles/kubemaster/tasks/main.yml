@@ -61,9 +61,9 @@
   command: "mkdir -p /home/$USER/.kube"
 
 - name: "Copying Configuration File to user directory"
+  become: no
   copy:
-    mode: 0777
-    src:  $HOME/.kube/config
+    src:  /etc/kubernetes/admin.conf
     dest: /home/$USER/.kube/config
     remote_src: yes
 
