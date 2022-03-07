@@ -1,4 +1,4 @@
-- hosts: all
+- hosts: all:!nfs
   tasks:
     - name: Common tasks
       include_role:

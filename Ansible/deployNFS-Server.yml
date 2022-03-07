@@ -1,5 +1,5 @@
 
-- hosts: master
+- hosts: nfs
   tasks:
     - name: deploy NFS Server
       include_role:
