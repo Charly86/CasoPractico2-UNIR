@@ -56,6 +56,14 @@
     owner: "{{ ansible_effective_user_id }}"
     group: "{{ ansible_effective_group_id }}"
 
+- name: Allow user to execute kube commands without sudo
+  become: no
+  command: "{{ item }}"
+  with_items:
+    - mkdir -p /home/$USER/.kube
+    - sudo cp -i /etc/kubernetes/admin.conf /home/$USER/.kube/config
+    - sudo chown $USER:$USER /home/$USER/.kube/config
+
 - name: install Flannel Pod network
   command: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
 
