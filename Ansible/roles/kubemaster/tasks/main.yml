@@ -65,6 +65,7 @@
     mode: 0777
     src:  $HOME/.kube/config
     dest: /home/$USER/.kube/config
+    remote_src: yes
 
 - name: Allow user to execute kube commands without sudo
   become: no
