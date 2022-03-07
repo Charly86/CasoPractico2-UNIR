@@ -41,20 +41,20 @@
 
 - name: "Configuration Files Setup"
   file:
-    path: "$HOME/.kube"
+    path: "$HOME/$USER/.kube"
     state: directory
     
 - name: "Copying Configuration File"
   copy:
     src: /etc/kubernetes/admin.conf
-    dest: /home/$USER/.kube/config
+    dest: $HOME/$USER/.kube/config
     remote_src: yes
 
 - name: Change kubeconfig file permission
   file:
-    path: /home/$USER/.kube/config
+    path: $HOME/$USER/.kube/config
     owner: "{{ ansible_effective_user_id }}"
-    group: "{{ ansible_effective_group_id }}"
+    group: "{{ ansible_effective_group_id }}"  
 
 - name: install Flannel Pod network
   command: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
