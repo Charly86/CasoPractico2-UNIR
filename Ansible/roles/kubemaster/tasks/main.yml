@@ -63,9 +63,8 @@
 - name: "Copying Configuration File to user directory"
   copy:
     mode: 0777
-    src: /etc/kubernetes/admin.conf
+    src:  $HOME/.kube/config
     dest: /home/$USER/.kube/config
-    remote_src: yes
 
 - name: Allow user to execute kube commands without sudo
   become: no
