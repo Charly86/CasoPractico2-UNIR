@@ -60,7 +60,6 @@
   become: no
   command: "{{ item }}"
   with_items:
-    - mkdir -p /home/$USER/.kube
     - sudo cp -i /etc/kubernetes/admin.conf /home/$USER/.kube/config
     - sudo chown $USER:$USER /home/$USER/.kube/config
 
