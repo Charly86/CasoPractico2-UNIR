@@ -6,12 +6,9 @@ metadata:
   labels:
     app: nginx-routed
 spec:
-  selector:
-    matchLabels:
-      app: nginx-routed
   replicas: 1
   selector:
-  matchLabels:
+    matchLabels:
       app: nginx-routed
   template:
     metadata:
