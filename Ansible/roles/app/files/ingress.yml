@@ -10,7 +10,7 @@ spec:
   - host: cvillar.unir.cp2
     http:
       paths:
-      - path: /testapp
+      - path: /
         pathType: Prefix
         backend:
           service: 

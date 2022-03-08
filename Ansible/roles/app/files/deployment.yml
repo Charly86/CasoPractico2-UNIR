@@ -9,7 +9,10 @@ spec:
   selector:
     matchLabels:
       app: nginx-routed
-  replicas: 2
+  replicas: 1
+  selector:
+  matchLabels:
+      app: nginx-routed
   template:
     metadata:
       labels:
@@ -20,6 +23,13 @@ spec:
         image: nginx:1.16.1
         ports:
         - containerPort: 80
+        readinessProbe:
+          httpGet:
+            path: /
+            port: 80 
+          initialDelaySeconds: 5
+          periodSeconds: 5
+          successThreshold: 1
 
 ---
 apiVersion: v1
