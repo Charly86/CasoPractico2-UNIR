@@ -1,12 +1,11 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: game2048
-  namespace: game2048
+  name: game2048_deployment
   labels:
     app: game2048
 spec:
-  replicas: 2
+  replicas: 1
   selector:
     matchLabels:
       app: game2048
@@ -33,7 +32,6 @@ apiVersion: v1
 kind: Service
 metadata:
     name: game2048-service
-    namespace: game2048
     annotations:
       haproxy.org/check: "enabled"
       haproxy.org/forwarded-for: "enabled"
