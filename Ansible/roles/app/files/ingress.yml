@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: nginx-ingress
-  namespace: nginx-routed
+  name: game2048-ingress
+  namespace: game2048
   annotations:
     haproxy.org/path-rewrite: "/"
 spec:
@@ -14,6 +14,6 @@ spec:
         pathType: Prefix
         backend:
           service: 
-            name: nginx-service
+            name: game2048-service
             port:
               number: 80

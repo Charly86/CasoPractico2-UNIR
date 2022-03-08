@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-routed
-  namespace: nginx-routed
+  name: game2048
+  namespace: game2048
   labels:
-    app: nginx-routed
+    app: game2048
 spec:
-  replicas: 1
+  replicas: 2
   selector:
     matchLabels:
-      app: nginx-routed
+      app: game2048
   template:
     metadata:
       labels:
-        app: nginx-routed
+        app: game2048
     spec:
       containers:
-      - name: nginx-routed
-        image: nginx:1.16.1
+      - name: game2048
+        image: alexwhen/docker-2048
         ports:
         - containerPort: 80
         readinessProbe:
@@ -32,15 +32,15 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-    name: nginx-service
-    namespace: nginx-routed
+    name: game2048-service
+    namespace: game2048
     annotations:
       haproxy.org/check: "enabled"
       haproxy.org/forwarded-for: "enabled"
       haproxy.org/load-balance: "roundrobin"
 spec:
     selector:
-      app: ngninx-routed
+      app: game2048
     ports:
     - name: http
       protocol: TCP
