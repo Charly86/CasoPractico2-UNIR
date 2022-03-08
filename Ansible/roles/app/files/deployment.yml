@@ -34,6 +34,10 @@ kind: Service
 metadata:
     name: nginx-service
     namespace: nginx-routed
+    annotations:
+      haproxy.org/check: "enabled"
+      haproxy.org/forwarded-for: "enabled"
+      haproxy.org/load-balance: "roundrobin"
 spec:
     selector:
       app: ngninx-routed
