@@ -24,13 +24,3 @@
     msg: "{{item.stdout_lines }}"
   with_items:
     - "{{ deploy.results }}"
-
-- name: Service object that exposes the deployment
-  command: "kubectl expose deployment nginx-routed --name=nginx-service --port=80 --target-port=80"
-  register: service
-
-- name: Display information about the Service
-  command: "kubectl describe services nginx-service"
-  register: information
-- debug:
-    msg: "{{information.stdout}}"
