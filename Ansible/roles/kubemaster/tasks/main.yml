@@ -56,20 +56,19 @@
     owner: "{{ ansible_effective_user_id }}"
     group: "{{ ansible_effective_group_id }}" 
 
-- name: Create directory to setup kubeconfig for the user
-  become: no
-  command: "mkdir -p /home/$USER/.kube"
+- name: Create directory for the user
+  file:
+    path: '/home/{{ansible_user}}/.kube'
+    state: directory
 
 - name: "Copying Configuration File to user directory"
-  become: true
   copy:
     src:  /etc/kubernetes/admin.conf
-    dest: /home/$USER/.kube/config
+    dest: /home/{{ansible_user}}/.kube/config
     remote_src: yes
 
 - name: Allow user to execute kube commands without sudo
-  become: no
-  command: "sudo chown $USER:$USER /home/$USER/.kube/config"
+  command: "chown {{ansible_user}}:{{ansible_user}} /home/{{ansible_user}}/.kube/config"
 
 - name: install Flannel Pod network
   command: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
