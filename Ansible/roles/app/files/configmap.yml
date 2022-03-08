@@ -3,7 +3,7 @@ apiVersion: v1
 kind: ConfigMap
 metadata:
   name: haproxy-configmap
-  namespace: nginx-routed
+  namespace: game2048
 data:
   servers-increment: "42"
   ssl-redirect: "OFF"
