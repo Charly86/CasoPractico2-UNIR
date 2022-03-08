@@ -1,7 +1,7 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: game2048_deployment
+  name: game2048-deployment
   labels:
     app: game2048
 spec:
