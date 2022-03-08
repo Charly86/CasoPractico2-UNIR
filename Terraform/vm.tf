@@ -19,6 +19,7 @@ resource "azurerm_linux_virtual_machine" "myVMMasterNFS" {
     os_disk {
         caching              = "ReadWrite"
         storage_account_type = "Standard_LRS"
+        disk_size_gb         = "50"
     }
 
     plan {
@@ -65,6 +66,7 @@ resource "azurerm_linux_virtual_machine" "myVMWorkers" {
     os_disk {
         caching              = "ReadWrite"
         storage_account_type = "Standard_LRS"
+        disk_size_gb         = "40"
     }
 
     plan {
