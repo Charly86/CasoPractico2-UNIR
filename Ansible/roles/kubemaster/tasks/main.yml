@@ -70,8 +70,8 @@
 - name: Allow user to execute kube commands without sudo
   command: "chown {{ansible_user}}:{{ansible_user}} /home/{{ansible_user}}/.kube/config"
 
-- name: install Flannel Pod network
-  command: "kubectl apply -f https://raw.githubusercontent.com/coreos/flannel/master/Documentation/kube-flannel.yml"
+- name: install Calico Flannel Pod network
+  command: "kubectl apply -f https://projectcalico.docs.tigera.io/manifests/canal.yaml"
 
 - name: install ingress controller
   command: "kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/master/deploy/haproxy-ingress.yaml"
