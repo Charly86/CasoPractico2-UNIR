@@ -1,2 +1,9 @@
 ---
 # vars file for kubenodes
+Firewall_ports_workers:
+ - 10250
+ - 10255
+ - 30000-32767
+ - 6783
+ - 80
+ - 8080

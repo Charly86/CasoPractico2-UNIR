@@ -1,3 +1,12 @@
 ---
 # vars file for kubemaster
 cidrPodNetwork: 10.244.0.0/16
+Firewall_ports_master:
+  - 6443
+  - 2379-2380
+  - 10250
+  - 10251
+  - 10252
+  - 10255
+  - 80
+  - 8080
