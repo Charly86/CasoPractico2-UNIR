@@ -1,19 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: nginx-routed
+  namespace: nginx-routed
+  labels:
+    app: nginx-routed
 spec:
   selector:
     matchLabels:
-      app: nginx
+      app: nginx-routed
   replicas: 2
   template:
     metadata:
       labels:
-        app: nginx
+        app: nginx-routed
     spec:
       containers:
-      - name: my-nginx
+      - name: nginx-routed
         image: nginx:1.16.1
         ports:
         - containerPort: 80
