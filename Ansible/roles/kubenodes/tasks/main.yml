@@ -3,11 +3,11 @@
 
 - name: Enable firewall ports workers
   firewalld:
-      port: "{{ item }}/tcp"
-      permanent: yes
-      state: enabled
-      immediate: yes
-    with_items:
+    port: "{{ item }}/tcp"
+    permanent: yes
+    state: enabled
+    immediate: yes
+  with_items:
       - "{{ Firewall_ports_workers}}"
   
 - name: Restart Firewalld service

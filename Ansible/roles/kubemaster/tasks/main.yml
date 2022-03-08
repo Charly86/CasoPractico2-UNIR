@@ -3,11 +3,11 @@
 
 - name: Configuring firewall rules to master
   firewalld:
-      port: "{{ item }}/tcp"
-      permanent: yes
-      immediate: yes
-      state: enabled
-    with_items:
+    port: "{{ item }}/tcp"
+    permanent: yes
+    immediate: yes
+    state: enabled
+  with_items:
       - "{{ Firewall_ports_master}}"
 
 - name: Allow access from the workers nodes
