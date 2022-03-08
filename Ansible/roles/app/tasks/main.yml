@@ -9,6 +9,10 @@
   with_items:
    - "{{ files }}"
    
+- name: Create namespace
+  shell: "kubectl create namespace nginx-routed"
+  register: namespace
+
 - name: Deploy the files
   shell: "kubectl apply -f /root/{{ item }}"
   register: deploy
