@@ -10,7 +10,7 @@
    - "{{ files }}"
    
 - name: Create namespace
-  shell: "kubectl create namespace nginx-routed"
+  shell: "kubectl create namespace game2048"
   register: namespace
 
 - name: Deploy the files
