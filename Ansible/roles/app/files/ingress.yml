@@ -3,7 +3,7 @@ kind: Ingress
 metadata:
   name: game2048-ingress
   annotations:
-    haproxy.org/path-rewrite: "/"
+    kubernetes.io/ingress.class: "nginx"
 spec:
   rules:
   - host: cvillar.unir.cp2

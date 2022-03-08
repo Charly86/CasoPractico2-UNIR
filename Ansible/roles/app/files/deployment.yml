@@ -32,10 +32,6 @@ apiVersion: v1
 kind: Service
 metadata:
     name: game2048-service
-    annotations:
-      haproxy.org/check: "enabled"
-      haproxy.org/forwarded-for: "enabled"
-      haproxy.org/load-balance: "roundrobin"
 spec:
     selector:
       app: game2048
