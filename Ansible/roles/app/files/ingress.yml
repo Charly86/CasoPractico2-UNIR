@@ -1,7 +1,7 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: todolist-ingress
+  name: nginx-ingress
   annotations:
     kubernetes.io/ingress.class: "nginx"
 spec:
@@ -9,10 +9,10 @@ spec:
   - host: cvillar.unir.cp2
     http:
       paths:
-      - path: /todolist
+      - path: /
         pathType: Prefix
         backend:
           service: 
-            name: todolist-service
+            name: nginx-service
             port:
               number: 80
