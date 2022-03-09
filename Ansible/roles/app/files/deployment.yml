@@ -1,22 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: nginx-deployment
+  name: game-deployment
   labels:
-    app: nginx
+    app: game
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: nginx
+      app: game
   template:
     metadata:
       labels:
-        app: nginx
+        app: game
     spec:
       containers:
-      - name: nginx
-        image: nginx:1.14.2
+      - name: game
+        image: emailtovamos/game-repo:v01
         ports:
         - containerPort: 80
         readinessProbe:
@@ -31,10 +31,10 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-    name: nginx-service
+    name: game-service
 spec:
     selector:
-      app: nginx
+      app: game
     ports:
     - name: http
       protocol: TCP
