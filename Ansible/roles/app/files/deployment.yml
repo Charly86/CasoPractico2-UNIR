@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: todolist
-        image: harness/todolist-sample
+        image: adminer
         ports:
         - containerPort: 80
         readinessProbe:
