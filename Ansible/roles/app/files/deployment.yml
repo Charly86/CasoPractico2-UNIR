@@ -16,7 +16,7 @@ spec:
     spec:
       containers:
       - name: todolist
-        image: chengxiuluo/todolist-frontend
+        image: harness/todolist-sample
         ports:
         - containerPort: 80
         readinessProbe:

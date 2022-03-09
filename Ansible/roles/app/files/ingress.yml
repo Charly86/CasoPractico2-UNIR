@@ -9,7 +9,7 @@ spec:
   - host: cvillar.unir.cp2
     http:
       paths:
-      - path: /
+      - path: /todolist
         pathType: Prefix
         backend:
           service: 
