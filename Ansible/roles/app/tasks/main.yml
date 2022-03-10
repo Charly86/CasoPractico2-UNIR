@@ -10,7 +10,7 @@
    - "{{ files }}"
 
 - name: Create namespace
-  shell: "kubectl create namespace game"
+  shell: "kubectl create namespace tutorial"
 
 - name: Deploy the files
   shell: "kubectl apply -f /root/{{ item }}"

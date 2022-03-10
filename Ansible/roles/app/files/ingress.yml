@@ -1,8 +1,8 @@
 apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
-  name: game-ingress
-  namespace: game
+  name: tutorial-ingress
+  namespace: tutorial
 spec:
   rules:
   - host: cvillar.unir.cp2
@@ -12,6 +12,6 @@ spec:
         pathType: Prefix
         backend:
           service: 
-            name: game-service
+            name: tutorial-service
             port:
               number: 80
