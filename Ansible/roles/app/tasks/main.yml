@@ -9,6 +9,9 @@
   with_items:
    - "{{ files }}"
 
+- name: Enable dynamic provisioning
+  shell: "kubectl apply -f /root/storage.yml"
+
 - name: Create namespace
   shell: "kubectl create namespace tutorial"
 

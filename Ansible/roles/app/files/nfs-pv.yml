@@ -10,9 +10,10 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Recycle
+  storageClassName: "nfs"
   mountOptions:
     - hard
-    - nfsvers=4.2
+    - nfsvers=4.1
   nfs:
     path: /srv/nfs
     server: 10.0.1.10

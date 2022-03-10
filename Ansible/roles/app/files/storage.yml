@@ -2,8 +2,6 @@ apiVersion: storage.k8s.io/v1
 kind: StorageClass
 metadata:
   name: nfs
-provisioner: kubernetes.io/azure-file
+provisioner: kubernetes.io/gce-pd
 parameters:
-  skuName: Standard_LRS
-  location: West Europe
-  storageAccount: storageaccountcvillar
+  type: pd-standard
