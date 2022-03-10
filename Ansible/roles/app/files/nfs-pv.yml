@@ -10,7 +10,7 @@ spec:
   accessModes:
     - ReadWriteMany
   persistentVolumeReclaimPolicy: Recycle
-  storageClassName: "slow"
+  storageClassName: ""
   mountOptions:
     - hard
     - nfsvers=4.1
