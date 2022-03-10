@@ -8,8 +8,8 @@ spec:
   - host: cvillar.unir.cp2
     http:
       paths:
-      - path: /
-        pathType: Prefix
+      - path: /tutorial
+        pathType: "Prefix"
         backend:
           service: 
             name: tutorial-service
