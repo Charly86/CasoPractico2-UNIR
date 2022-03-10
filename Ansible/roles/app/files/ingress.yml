@@ -9,7 +9,7 @@ spec:
   - host: cvillar.unir.cp2
     http:
       paths:
-      - path: /
+      - path: /game
         pathType: Prefix
         backend:
           service: 
