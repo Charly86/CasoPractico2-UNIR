@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: tutorial
-        image: getting-started
+        image: docker/getting-started
         ports:
         - containerPort: 80
         readinessProbe:
