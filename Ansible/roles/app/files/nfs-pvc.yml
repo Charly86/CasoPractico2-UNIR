@@ -4,9 +4,10 @@ metadata:
   name: nfs-pvc
   namespace: tutorial
 spec:
-  storageClassName: nfs
+  storageClassName: ""
   accessModes:
     - ReadWriteMany
   resources:
     requests:
       storage: 2Gi
+  volumeName: nfs-pvc    
