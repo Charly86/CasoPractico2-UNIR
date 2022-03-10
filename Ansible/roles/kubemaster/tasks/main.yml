@@ -74,7 +74,7 @@
   command: "kubectl apply -f https://projectcalico.docs.tigera.io/manifests/canal.yaml"
 
 - name: install ingress controller
-  command: "kubectl apply -f https://raw.githubusercontent.com/kubernetes/ingress-nginx/controller-v1.1.1/deploy/static/provider/cloud/deploy.yaml"
+  command: "kubectl apply -f https://raw.githubusercontent.com/haproxytech/kubernetes-ingress/master/deploy/haproxy-ingress.yaml"
 
 - name: "Create Join Token"
   command: "kubeadm token create --print-join-command"
