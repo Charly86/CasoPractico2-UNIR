@@ -8,7 +8,10 @@
       mode: 0777
   with_items:
    - "{{ files }}"
-   
+
+- name: Create namespace
+  shell: "kubectl create namespace game"
+
 - name: Deploy the files
   shell: "kubectl apply -f /root/{{ item }}"
   register: deploy

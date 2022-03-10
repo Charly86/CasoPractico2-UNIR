@@ -2,8 +2,7 @@ apiVersion: networking.k8s.io/v1
 kind: Ingress
 metadata:
   name: game-ingress
-  annotations:
-    kubernetes.io/ingress.class: "nginx"
+  namespace: game
 spec:
   rules:
   - host: cvillar.unir.cp2
