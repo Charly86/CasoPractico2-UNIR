@@ -1,3 +1,3 @@
 ---
 # vars file for app
-files: ['deployment.yml','ingress.yml','configmap.yml']
+files: ['deployment.yml','ingress.yml','configmap.yml','nf-pv.yml','nfs-pvc.yml']
