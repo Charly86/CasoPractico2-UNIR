@@ -3,6 +3,10 @@ kind: Ingress
 metadata:
   name: tutorial-ingress
   namespace: tutorial
+  labels:
+    app: tutorial
+  annotations:
+      haproxy.org/path-rewrite: "/"
 spec:
   rules:
   - host: cvillar.unir.cp2
