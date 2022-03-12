@@ -1,23 +1,23 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: tutorial-deployment
-  namespace: tutorial
+  name: game-deployment
+  namespace: game
   labels:
-    app: tutorial
+    app: game
 spec:
   replicas: 1
   selector:
     matchLabels:
-      app: tutorial
+      app: game
   template:
     metadata:
       labels:
-        app: tutorial
+        app: game
     spec:
       containers:
-      - name: tutorial
-        image: emailtovamos/game-repo:v02
+      - name: game
+        image: emailtovamos/game-repo:latest
         ports:
         - containerPort: 80
         readinessProbe:
@@ -32,11 +32,11 @@ spec:
 apiVersion: v1
 kind: Service
 metadata:
-    name: tutorial-service
-    namespace: tutorial
+    name: game-service
+    namespace: game
 spec:
     selector:
-      app: tutorial
+      app: game
     ports:
     - name: http
       protocol: TCP
